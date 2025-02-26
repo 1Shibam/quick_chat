@@ -1,7 +1,5 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:quick_chat/router/router_names.dart';
 import 'package:quick_chat/theme/text_styles.dart';
 
@@ -10,16 +8,16 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2), () {
-      if (context.mounted) context.go(RouterNames.home);
+    Future.delayed(const Duration(seconds: 2), () async {
+      if (context.mounted) context.go(RouterNames.login);
+      //decide where to go if the user is logged in than go to home else login -
     });
-
     return Scaffold(
       body: Center(
-        child: AnimatedTextKit(animatedTexts: [
-          FlickerAnimatedText(' LOADING ...',
-              textStyle: AppTextStyles.heading1)
-        ]),
+        child: Text(
+          'Loading',
+          style: AppTextStyles.heading1,
+        ),
       ),
     );
   }
