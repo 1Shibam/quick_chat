@@ -15,12 +15,15 @@ class HomeScreen extends StatelessWidget {
             child: AppBar(
               title: const Text('QuickChat'),
             )),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(
-            Icons.chat,
-            color: AppColors.softGrey,
-            size: 28.sp,
+        floatingActionButton: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: FloatingActionButton(
+            onPressed: () {},
+            child: Icon(
+              Icons.chat,
+              color: AppColors.softGrey,
+              size: 28.sp,
+            ),
           ),
         ),
         body: Center(
