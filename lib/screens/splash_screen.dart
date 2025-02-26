@@ -1,7 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:quick_chat/router/router_names.dart';
+import 'package:quick_chat/theme/text_styles.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -14,8 +16,10 @@ class SplashScreen extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: AnimatedTextKit(
-            animatedTexts: [FlickerAnimatedText(' LOADING ...')]),
+        child: AnimatedTextKit(animatedTexts: [
+          FlickerAnimatedText(' LOADING ...',
+              textStyle: AppTextStyles.heading1)
+        ]),
       ),
     );
   }

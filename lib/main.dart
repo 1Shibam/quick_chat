@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quick_chat/router/app_router.dart';
+import 'package:quick_chat/theme/app_colors.dart';
+
+import 'theme/text_styles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +24,18 @@ class QuickChatApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Quick Chat',
           routerConfig: router,
-          theme: ThemeData(),
+          theme: ThemeData(
+              floatingActionButtonTheme: FloatingActionButtonThemeData(
+                splashColor: AppColors.grey,
+                backgroundColor: AppColors.darkGreen,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40.r)),
+              ),
+              scaffoldBackgroundColor: AppColors.greyBlack,
+              appBarTheme: AppBarTheme(
+                  color: Colors.transparent,
+                  centerTitle: false,
+                  titleTextStyle: AppTextStyles.heading1)),
         );
       },
     );
