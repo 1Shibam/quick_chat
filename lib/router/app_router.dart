@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quick_chat/screens/auth/login_screen.dart';
+import 'package:quick_chat/screens/auth/sign_up_screen.dart';
 import 'package:quick_chat/screens/home_screen.dart';
 import 'package:quick_chat/screens/splash_screen.dart';
 
 GoRouter router = GoRouter(
-    initialLocation: '/', routes: [splashScreenRoute(), homeScreenRoute()]);
+    initialLocation: '/', routes: [splashScreenRoute(), homeScreenRoute(), LoginScreenRoute(), signupScreenRoute()]);
 
 GoRoute splashScreenRoute() {
   return GoRoute(
@@ -51,7 +53,7 @@ GoRoute LoginScreenRoute() {
     pageBuilder: (context, state) {
       return CustomTransitionPage(
         key: state.pageKey,
-        child: const HomeScreen(),
+        child: const LoginPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           // Change the opacity of the screen using a Curve based on the the animation's
           // value
@@ -70,7 +72,7 @@ GoRoute signupScreenRoute() {
     pageBuilder: (context, state) {
       return CustomTransitionPage(
         key: state.pageKey,
-        child: const HomeScreen(),
+        child: const SignUpPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           // Change the opacity of the screen using a Curve based on the the animation's
           // value

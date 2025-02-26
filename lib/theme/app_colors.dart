@@ -9,7 +9,6 @@ class AppColors {
   static const Color softGrey = Color(0xffBEBFBD);
   static const Color softWhite = Color(0xffD8D9D7);
 
-  static var neutralColorMediumGray;
 }
 
 // <palette>
