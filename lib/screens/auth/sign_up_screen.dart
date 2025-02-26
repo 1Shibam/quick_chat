@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quick_chat/router/router_names.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
 import 'package:quick_chat/theme/app_colors.dart';
 import 'package:quick_chat/theme/text_styles.dart';
@@ -68,8 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
         context.go('/login');
       } catch (e) {
         Navigator.pop(context);
-        buildSnackBar(context, e.toString(),
-            bgColor: AppColors.grey);
+        buildSnackBar(context, e.toString(), bgColor: AppColors.grey);
       }
     } else {
       buildSnackBar(context, 'Please fill out all fields correctly');
@@ -131,9 +131,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             }),
                         icon: Icon(
                           isVisible ? Icons.visibility_off : Icons.visibility,
-                          color: isVisible
-                              ? AppColors.darkGreen
-                              : Colors.red,
+                          color: isVisible ? AppColors.darkGreen : Colors.red,
                         )),
                   ),
                   SizedBox(height: 16.h),
@@ -160,8 +158,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               Expanded(
                                 child: Text(
                                   'by continuing you accept out privacy policy and terms of use',
-                                  style: AppTextStyles.bodyText.copyWith(
-                                      color: AppColors.softGrey),
+                                  style: AppTextStyles.bodyText
+                                      .copyWith(color: AppColors.softGrey),
                                 ),
                               )
                             ],
@@ -208,12 +206,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     style: AppTextStyles.bodyText
                         .copyWith(color: AppColors.darkGreen),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => context.go('/login'),
+                      ..onTap = () => context.go(RouterNames.login),
                   ),
                 ],
               ),
             ),
-        
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_chat/preferences/login_page_preference.dart';
+import 'package:quick_chat/router/router_names.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
 import 'package:quick_chat/theme/app_colors.dart';
 import 'package:quick_chat/theme/text_styles.dart';
@@ -68,8 +69,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       } catch (e) {
         Navigator.pop(context);
-        buildSnackBar(context, e.toString(),
-            bgColor: AppColors.darkGreen);
+        buildSnackBar(context, e.toString(), bgColor: AppColors.darkGreen);
       }
     }
   }
@@ -117,9 +117,8 @@ class _LoginPageState extends State<LoginPage> {
                     }),
                     icon: Icon(
                         isVisible ? Icons.visibility_off : Icons.visibility),
-                    color: isVisible
-                        ? AppColors.darkGreen
-                        : AppColors.softWhite,
+                    color:
+                        isVisible ? AppColors.darkGreen : AppColors.softWhite,
                   ),
                   validator: validatePassword, // Pass function reference
                   submitField: (_) => submitForm(),
@@ -146,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                             .copyWith(color: AppColors.darkGreen),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            context.go('/signup');
+                            context.go(RouterNames.signup);
                           },
                       ),
                     ]),
