@@ -1,16 +1,28 @@
-# quick_chat
+# QuickChat 🗨️  
 
-A new Flutter project.
+A **real-time chat application** built with **Flutter** and **Firebase**, designed for **instant messaging, image sharing, and seamless user experience**.  
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features (Planned & In Progress)  
 
-A few resources to get you started if this is your first Flutter project:
+✔️ **Real-time messaging** – Send and receive messages instantly.  
+✔️ **Image sharing** – Share images with other users.  
+✔️ **User authentication** – Secure login and sign-up with Firebase.  
+✔️ **Chat history** – Messages are stored persistently.  
+⬜ **Push notifications** – Get notified for new messages. *(Planned)*  
+⬜ **Typing indicators & online status** – See when a user is typing or online. *(Planned)*  
+⬜ **Group chats** – Create and manage group conversations. *(Planned)*  
+⬜ **Voice messages** – Send and receive voice notes. *(Planned)*  
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tech Stack  
+
+- **Flutter** (Frontend)  
+- **Firebase** (Backend, Authentication, Firestore Database)  
+- **Riverpod** (State management)  
+- **Dio** (Networking & API calls)  
+
+---
+
