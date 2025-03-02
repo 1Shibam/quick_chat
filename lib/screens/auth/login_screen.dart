@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
         setLoginPreference(true);
 
         Navigator.pop(context);
-        context.go('/completeProfile');
+        context.go(RouterNames.home);
       } else {
         Navigator.pop(context);
         buildSnackBar(context, 'Please verify you email first',

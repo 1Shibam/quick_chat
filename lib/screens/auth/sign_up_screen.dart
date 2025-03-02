@@ -211,7 +211,7 @@ class _SignUpPageState extends State<SignUpPage> {
       Navigator.pop(context);
 
       // Navigate to the login page
-      context.go('/login');
+      context.go(RouterNames.login);
     } catch (e) {
       Navigator.pop(context);
       buildSnackBar(context, e.toString(), bgColor: AppColors.grey);
