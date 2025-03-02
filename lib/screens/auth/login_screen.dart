@@ -1,8 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/preferences/login_page_preference.dart';
-import 'package:quick_chat/router/router_names.dart';
+
 import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
 
@@ -15,18 +17,27 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   //! Text Editing controllers
-  final emailController = TextEditingController();
-  final passController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
 
   //! Focus nodes
-  final emailFocus = FocusNode();
-  final passFocus = FocusNode();
+  final FocusNode emailFocus = FocusNode();
+  final FocusNode passFocus = FocusNode();
 
   //! bool for password visibility toggle
   bool isVisible = true;
 
   //! Form Key for validation
   final formkey = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passController.dispose();
+    emailFocus.dispose();
+    passFocus.dispose();
+
+    super.dispose();
+  }
 
   /// Handle form submission
   void submitForm() async {
@@ -122,29 +133,29 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  //Attempting to log in - 
-  
-  attemptLogin() async{
+  //Attempting to log in -
+
+  attemptLogin() async {
     try {
-        //Attempting to log in with email and password -
-        await FirebaseAuthServices(FirebaseAuth.instance).loginWithEmail(
-            context, emailController.text.trim(), passController.text.trim());
-        //check if email is verified -
-        final user = FirebaseAuth.instance.currentUser;
-        if (user != null && user.emailVerified ) {
-          setLoginPreference(true);
-          
-          Navigator.pop(context);
-          context.go('/completeProfile');
-        } else {
-          Navigator.pop(context);
-          buildSnackBar(context, 'Please verify you email first',
-              bgColor: AppColors.darkGreen);
-        }
-      } catch (e) {
+      //Attempting to log in with email and password -
+      await FirebaseAuthServices(FirebaseAuth.instance).loginWithEmail(
+          context, emailController.text.trim(), passController.text.trim());
+      //check if email is verified -
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && user.emailVerified) {
+        setLoginPreference(true);
+
         Navigator.pop(context);
-        buildSnackBar(context, e.toString(), bgColor: AppColors.darkGreen);
+        context.go('/completeProfile');
+      } else {
+        Navigator.pop(context);
+        buildSnackBar(context, 'Please verify you email first',
+            bgColor: AppColors.darkGreen);
       }
+    } catch (e) {
+      Navigator.pop(context);
+      buildSnackBar(context, e.toString(), bgColor: AppColors.darkGreen);
+    }
   }
 }
 

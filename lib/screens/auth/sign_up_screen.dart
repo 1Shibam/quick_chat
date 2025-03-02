@@ -1,7 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dashed_rect/dashed_rect.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
-import 'package:quick_chat/router/router_names.dart';
 import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
 

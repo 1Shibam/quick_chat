@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -58,7 +58,7 @@ class FirebaseAuthServices {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Login failed';
-      print(e.code);
+      // print(e.code);
 
       switch (e.code) {
         case 'invalid-credential':
@@ -93,22 +93,10 @@ class FirebaseAuthServices {
             bgColor: AppColors.darkGreen);
       }
     } on FirebaseException catch (e) {
-      buildSnackBar(context, e.message.toString(), bgColor: AppColors.grey);
+      if(context.mounted) buildSnackBar(context, e.message.toString(), bgColor: AppColors.grey);
     }
   }
 
-  //! Phone sign-in(only for android and IOS )
-  Future<void> singInWithPhoneNum(BuildContext context, String number) async {
-    await _auth.verifyPhoneNumber(
-      //? verification complted only works only on android we are checking it that if we received any otp then we will signup with the otp
-      verificationCompleted: (PhoneAuthCredential creadential) async {
-        await _auth.signInWithCredential(creadential);
-      },
-      verificationFailed: (error) {
-        buildSnackBar(context, error.message.toString());
-      },
-      codeSent: (String verificationId, int? forceResendingToken) async {},
-      codeAutoRetrievalTimeout: (verificationId) {},
-    );
-  }
+
+  
 }
