@@ -8,4 +8,5 @@ class AppColors {
   static const Color softGrey = Color(0xffBEBFBD);
   static const Color softWhite = Color(0xffD8D9D7);
   static const Color errorRed = Color.fromARGB(255, 101, 7, 0);
+  static const Color errorRedAccent = Color.fromARGB(255, 223, 15, 0);
 }

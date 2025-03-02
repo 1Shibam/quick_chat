@@ -2,10 +2,14 @@
 
 import 'package:dashed_rect/dashed_rect.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
+
+//! state provider for chexkbox controller -
+final cheBoxControllerProvider = AutoDisposeStateProvider<bool>((ref) => false);
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -20,6 +24,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passController = TextEditingController();
+
   bool checkBoxController = false;
   //! Focus nodes
   final nameFocus = FocusNode();
@@ -48,23 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
         },
       );
 
-      try {
-        // Attempt to sign up with email and password
-        await FirebaseAuthServices(FirebaseAuth.instance).signUpWithEmail(
-          email: emailController.text,
-          password: passController.text,
-          context: context,
-        );
-
-        // Close the loading dialog after signup
-        Navigator.pop(context);
-
-        // Navigate to the login page
-        context.go('/login');
-      } catch (e) {
-        Navigator.pop(context);
-        buildSnackBar(context, e.toString(), bgColor: AppColors.grey);
-      }
+      await attemptSignUp();
     } else if (checkBoxController == false) {
       setState(() {
         isAlerted = true;
@@ -207,6 +196,26 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+  attemptSignUp() async {
+    try {
+      // Attempt to sign up with email and password
+      await FirebaseAuthServices(FirebaseAuth.instance).signUpWithEmail(
+        email: emailController.text,
+        password: passController.text,
+        context: context,
+      );
+
+      // Close the loading dialog after signup
+      Navigator.pop(context);
+
+      // Navigate to the login page
+      context.go('/login');
+    } catch (e) {
+      Navigator.pop(context);
+      buildSnackBar(context, e.toString(), bgColor: AppColors.grey);
+    }
   }
 }
 

@@ -1,8 +1,4 @@
-
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quick_chat/theme/app_colors.dart';
-import 'package:quick_chat/theme/text_styles.dart';
+import 'package:quick_chat/Exports/common_exports.dart';
 
 class BuildTextField extends StatelessWidget {
   final String label;
@@ -14,22 +10,20 @@ class BuildTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final Function(void)? submitField;
 
-  const BuildTextField({
-    super.key,
-    required this.label,
-    this.isPassword = false,
-    this.controller,
-    this.focusNode,
-    this.preWidget,
-    this.suffWidget,
-    this.validator,
-    this.submitField
-  });
+  const BuildTextField(
+      {super.key,
+      required this.label,
+      this.isPassword = false,
+      this.controller,
+      this.focusNode,
+      this.preWidget,
+      this.suffWidget,
+      this.validator,
+      this.submitField});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      autovalidateMode: AutovalidateMode.onUnfocus,
       style: AppTextStyles.bodyText,
       focusNode: focusNode,
       controller: controller,
@@ -42,17 +36,12 @@ class BuildTextField extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           child: preWidget,
         ),
-        
         suffixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
           child: suffWidget,
         ),
         labelText: label,
         labelStyle: AppTextStyles.bodyText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: const BorderSide(color: AppColors.darkGreen),
-        ),
       ),
     );
   }

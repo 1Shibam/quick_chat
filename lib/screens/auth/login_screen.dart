@@ -147,6 +147,8 @@ class _LoginPageState extends State<LoginPage> {
 
         Navigator.pop(context);
         context.go('/completeProfile');
+      }
+      if (user != null && !user.emailVerified) {
       } else {
         Navigator.pop(context);
         buildSnackBar(context, 'Please verify you email first',
