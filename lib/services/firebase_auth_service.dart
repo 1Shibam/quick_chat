@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/widgets.dart';
@@ -71,14 +69,16 @@ class FirebaseAuthServices {
         case 'user-disabled':
           errorMessage = 'The user account has been disabled';
           break;
+        case 'user-not-verified':
+          errorMessage = 'Please verify your email first';
       }
       if (context.mounted) {
-        buildSnackBar(context, errorMessage, bgColor: AppColors.grey);
+        buildSnackBar(context, errorMessage, bgColor: AppColors.errorRed);
       }
     } catch (e) {
       if (context.mounted) {
         buildSnackBar(context, 'unexpected error occured!',
-            bgColor: AppColors.grey);
+            bgColor: AppColors.errorRed);
       }
     }
   }
@@ -93,10 +93,10 @@ class FirebaseAuthServices {
             bgColor: AppColors.darkGreen);
       }
     } on FirebaseException catch (e) {
-      if(context.mounted) buildSnackBar(context, e.message.toString(), bgColor: AppColors.grey);
+      if (context.mounted) {
+        buildSnackBar(context, e.message.toString(),
+            bgColor: AppColors.errorRed);
+      }
     }
   }
-
-
-  
 }
