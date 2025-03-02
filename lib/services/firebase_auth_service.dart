@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:quick_chat/theme/app_colors.dart';
-import 'package:quick_chat/widgets/build_snackbar.dart';
+import 'package:quick_chat/widgets/common_widgets/build_snackbar.dart';
 
 class FirebaseAuthServices {
   final FirebaseAuth _auth; //firebase instance

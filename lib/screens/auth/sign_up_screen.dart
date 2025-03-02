@@ -1,14 +1,11 @@
 import 'package:dashed_rect/dashed_rect.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/router/router_names.dart';
+import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
-import 'package:quick_chat/theme/app_colors.dart';
-import 'package:quick_chat/theme/text_styles.dart';
-import 'package:quick_chat/widgets/build_snackbar.dart';
+
+import 'package:quick_chat/widgets/common_widgets/build_snackbar.dart';
 import 'package:quick_chat/widgets/common_widgets/build_primary_button.dart';
 import 'package:quick_chat/widgets/common_widgets/build_text_field.dart';
 import 'package:quick_chat/widgets/common_widgets/lottie_loading_animation.dart';
@@ -204,20 +201,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 onTap: submitForm,
                 child: const BuildPrimaryButton(text: 'Sign Up')),
             SizedBox(height: 10.h),
-            RichText(
-              text: TextSpan(
-                text: "Already have an account? ",
-                style: AppTextStyles.bodyText,
-                children: [
-                  TextSpan(
-                    text: "Log in",
-                    style: AppTextStyles.bodyText
-                        .copyWith(color: AppColors.darkGreenAccent),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => context.go(RouterNames.login),
-                  ),
-                ],
-              ),
+            const BottomRichTextWidget(
+              text1: "Already have an account? ",
+              text2: "Log in",
+              pageName: RouterNames.login,
             ),
           ],
         ),
@@ -226,6 +213,7 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
+//! validation methods below
 /// name validation function
 String? validateName(String? value) {
   if (value == null || value.trim().isEmpty) {

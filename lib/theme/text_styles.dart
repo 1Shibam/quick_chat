@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quick_chat/theme/app_colors.dart';
-import 'package:quick_chat/theme/fonts.dart';
-
+import 'package:quick_chat/Exports/common_exports.dart';
 class AppTextStyles {
   static TextStyle heading1 = TextStyle(
       fontSize: 32.sp, fontFamily: Fonts.boldFont, color: AppColors.softWhite);

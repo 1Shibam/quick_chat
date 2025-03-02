@@ -1,17 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/preferences/login_page_preference.dart';
 import 'package:quick_chat/router/router_names.dart';
+import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
-import 'package:quick_chat/theme/app_colors.dart';
-import 'package:quick_chat/theme/text_styles.dart';
-import 'package:quick_chat/widgets/build_snackbar.dart';
-import 'package:quick_chat/widgets/common_widgets/build_primary_button.dart';
-import 'package:quick_chat/widgets/common_widgets/build_text_field.dart';
-import 'package:quick_chat/widgets/common_widgets/lottie_loading_animation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -52,25 +45,7 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
 
-      try {
-        //Attempting to log in with email and password -
-        await FirebaseAuthServices(FirebaseAuth.instance).loginWithEmail(
-            context, emailController.text.trim(), passController.text.trim());
-        //check if email is verified -
-        final user = FirebaseAuth.instance.currentUser;
-        if (user != null && user.emailVerified) {
-          setLoginPreference(true);
-          Navigator.pop(context);
-          context.go('/completeProfile');
-        } else {
-          Navigator.pop(context);
-          buildSnackBar(context, 'Please verify you email first',
-              bgColor: AppColors.darkGreen);
-        }
-      } catch (e) {
-        Navigator.pop(context);
-        buildSnackBar(context, e.toString(), bgColor: AppColors.darkGreen);
-      }
+      await attemptLogin();
     } else {
       buildSnackBar(context, 'Please Fill all the fields correctly',
           bgColor: AppColors.errorRed);
@@ -135,25 +110,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 16.h),
-                Center(
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                        text: 'Don\'t have an account?',
-                        style: AppTextStyles.bodyText,
-                      ),
-                      TextSpan(
-                        text: ' Sign Up',
-                        style: AppTextStyles.bodyText
-                            .copyWith(color: AppColors.darkGreenAccent),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            context.go(RouterNames.signup);
-                          },
-                      ),
-                    ]),
-                  ),
-                ),
+                const BottomRichTextWidget(
+                    text1: 'Don\'t have an account?',
+                    text2: ' Sign Up',
+                    pageName: RouterNames.signup)
               ],
             ),
           ),
@@ -161,9 +121,34 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  //Attempting to log in - 
+  
+  attemptLogin() async{
+    try {
+        //Attempting to log in with email and password -
+        await FirebaseAuthServices(FirebaseAuth.instance).loginWithEmail(
+            context, emailController.text.trim(), passController.text.trim());
+        //check if email is verified -
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null && user.emailVerified ) {
+          setLoginPreference(true);
+          
+          Navigator.pop(context);
+          context.go('/completeProfile');
+        } else {
+          Navigator.pop(context);
+          buildSnackBar(context, 'Please verify you email first',
+              bgColor: AppColors.darkGreen);
+        }
+      } catch (e) {
+        Navigator.pop(context);
+        buildSnackBar(context, e.toString(), bgColor: AppColors.darkGreen);
+      }
+  }
 }
 
-/// Email validation function
+// Email validation function
 String? validateEmail(String? value) {
   if (value == null || value.trim().isEmpty) {
     return 'Email can\'t be empty';
