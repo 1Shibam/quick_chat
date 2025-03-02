@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quick_chat/theme/app_colors.dart';
-import 'package:quick_chat/theme/text_styles.dart';
+import 'package:quick_chat/Exports/common_exports.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

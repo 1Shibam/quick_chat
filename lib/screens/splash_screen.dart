@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:quick_chat/router/router_names.dart';
-import 'package:quick_chat/theme/app_colors.dart';
-import 'package:quick_chat/widgets/common_widgets/lottie_loading_animation.dart';
+import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/Exports/widgets_export.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
