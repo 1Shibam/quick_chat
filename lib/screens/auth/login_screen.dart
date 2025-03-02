@@ -71,6 +71,9 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pop(context);
         buildSnackBar(context, e.toString(), bgColor: AppColors.darkGreen);
       }
+    } else {
+      buildSnackBar(context, 'Please Fill all the fields correctly',
+          bgColor: AppColors.errorRed);
     }
   }
 
@@ -78,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Center(
           child: Form(
             key: formkey, // Attach form key
@@ -142,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextSpan(
                         text: ' Sign Up',
                         style: AppTextStyles.bodyText
-                            .copyWith(color: AppColors.darkGreen),
+                            .copyWith(color: AppColors.darkGreenAccent),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             context.go(RouterNames.signup);

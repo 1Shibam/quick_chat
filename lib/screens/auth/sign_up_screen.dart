@@ -41,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   /// Handle form submission
   void submitForm() async {
-    if (formKey.currentState!.validate() && checkBoxController == true) {
+    if (formKey.currentState!.validate()) {
       // Show loading animation while signing up
       showDialog(
         context: context,
@@ -71,8 +71,13 @@ class _SignUpPageState extends State<SignUpPage> {
         Navigator.pop(context);
         buildSnackBar(context, e.toString(), bgColor: AppColors.grey);
       }
+    } else if (checkBoxController == false) {
+      setState(() {
+        isAlerted = true;
+      });
     } else {
-      buildSnackBar(context, 'Please fill out all fields correctly');
+      buildSnackBar(context, 'Please fill out all fields correctly',
+          bgColor: AppColors.errorRed);
     }
   }
 
@@ -130,8 +135,11 @@ class _SignUpPageState extends State<SignUpPage> {
                               isVisible = !isVisible;
                             }),
                         icon: Icon(
+                          //? for true value of isVisible the icon is in-active and for false its active
                           isVisible ? Icons.visibility_off : Icons.visibility,
-                          color: isVisible ? AppColors.darkGreen : Colors.red,
+                          color: isVisible
+                              ? AppColors.darkGreen
+                              : AppColors.softWhite,
                         )),
                   ),
                   SizedBox(height: 16.h),
@@ -145,7 +153,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             children: [
                               Checkbox(
                                 side: const BorderSide(
-                                    color: Colors.orange, width: 3),
+                                    color: AppColors.grey, width: 3),
                                 checkColor: AppColors.darkGreen,
                                 activeColor: AppColors.softGrey,
                                 value: checkBoxController,
@@ -169,7 +177,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           children: [
                             Checkbox(
                               side: const BorderSide(
-                                  color: Colors.orange, width: 3),
+                                  color: AppColors.darkGreenAccent, width: 3),
                               checkColor: AppColors.darkGreen,
                               activeColor: AppColors.softWhite,
                               value: checkBoxController,
@@ -204,7 +212,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextSpan(
                     text: "Log in",
                     style: AppTextStyles.bodyText
-                        .copyWith(color: AppColors.darkGreen),
+                        .copyWith(color: AppColors.darkGreenAccent),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () => context.go(RouterNames.login),
                   ),
