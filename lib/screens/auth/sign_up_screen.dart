@@ -3,13 +3,9 @@
 import 'package:dashed_rect/dashed_rect.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
-
-import 'package:quick_chat/widgets/common_widgets/build_snackbar.dart';
-import 'package:quick_chat/widgets/common_widgets/build_primary_button.dart';
-import 'package:quick_chat/widgets/common_widgets/build_text_field.dart';
-import 'package:quick_chat/widgets/common_widgets/lottie_loading_animation.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
