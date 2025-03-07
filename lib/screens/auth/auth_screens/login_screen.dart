@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
   //! bool for password visibility toggle
   bool isVisible = true;
+  bool hasRecentLogins = false;
 
   //! Form Key for validation
   final formkey = GlobalKey<FormState>();
@@ -168,7 +169,23 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                )
+                ),
+                hasRecentLogins
+                    ? Column(
+                        children: [
+                          SizedBox(
+                            height: 12.h,
+                          ),
+                          const Divider(),
+                          SizedBox(
+                            height: 12.h,
+                          ),
+                          const Expanded(child: ListTile(
+                            //show recent logins tiles tap to login - 
+                          ))
+                        ],
+                      )
+                    : const SizedBox.shrink()
               ],
             ),
           ),
