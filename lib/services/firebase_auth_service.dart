@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:flutter/widgets.dart';
-import 'package:quick_chat/theme/app_colors.dart';
+import 'package:quick_chat/Exports/common_exports.dart';
+
 import 'package:quick_chat/widgets/common_widgets/build_snackbar.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthServices {
-  final FirebaseAuth _auth; //firebase instance
-  FirebaseAuthServices(this._auth);
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   //! Signup with email
   Future<void> signUpWithEmail(
@@ -97,6 +98,44 @@ class FirebaseAuthServices {
         buildSnackBar(context, e.message.toString(),
             bgColor: AppColors.errorRed);
       }
+    }
+  }
+
+  //! signup / signin with google with google -
+  Future<void> sigupWithGoogle(BuildContext context) async {
+    try {
+      //? Starting the singUp process!!
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+      //? User cancelled the signup process
+      if (googleUser == null) {
+        if (context.mounted) {
+          buildSnackBar(context, 'Process Cancelled',
+              bgColor: AppColors.errorRedAccent);
+        }
+        return;
+      }
+      //? getting google auth details
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // If user exists, directly sign them in
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        if (context.mounted) {
+          buildSnackBar(
+              context, 'Welcome , ${userCredential.user!.displayName}!');
+          context.go(RouterNames.home);
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) buildSnackBar(context, 'something went wrong : ${e.message}');
     }
   }
 }
