@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:dashed_rect/dashed_rect.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
@@ -199,9 +199,19 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(
               height: 12.h,
             ),
-            Container(
-              color: AppColors.darkGreen,
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+            GestureDetector(
+              onTap: () async {
+                await FirebaseAuthServices().sigupWithGoogle(context);
+              },
+              child: Container(
+                color: AppColors.darkGreen,
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+                child: Row(
+                  children: [
+                    Expanded(child: SvgPicture.asset(''))
+                  ],
+                ),
+              ),
             )
           ],
         ),
@@ -212,7 +222,7 @@ class _SignUpPageState extends State<SignUpPage> {
   attemptSignUp() async {
     try {
       // Attempt to sign up with email and password
-      await FirebaseAuthServices(FirebaseAuth.instance).signUpWithEmail(
+      await FirebaseAuthServices().signUpWithEmail(
         email: emailController.text,
         password: passController.text,
         context: context,
