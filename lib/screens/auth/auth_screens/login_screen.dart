@@ -124,7 +124,18 @@ class _LoginPageState extends State<LoginPage> {
                 const BottomRichTextWidget(
                     text1: 'Don\'t have an account?',
                     text2: ' Sign Up',
-                    pageName: RouterNames.signup)
+                    pageName: RouterNames.signup),
+                SizedBox(
+                  height: 12.h,
+                ),
+                const Divider(),
+                SizedBox(
+                  height: 12.h,
+                ),
+                Container(
+                    color: AppColors.darkGreen,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h))
               ],
             ),
           ),
@@ -138,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
   attemptLogin() async {
     try {
       //Attempting to log in with email and password -
-      await FirebaseAuthServices(FirebaseAuth.instance).loginWithEmail(
+      await FirebaseAuthServices().loginWithEmail(
           context, emailController.text.trim(), passController.text.trim());
       //check if email is verified -
       final user = FirebaseAuth.instance.currentUser;
