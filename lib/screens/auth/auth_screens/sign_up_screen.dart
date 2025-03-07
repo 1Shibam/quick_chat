@@ -192,6 +192,17 @@ class _SignUpPageState extends State<SignUpPage> {
               text2: "Log in",
               pageName: RouterNames.login,
             ),
+            SizedBox(
+              height: 12.h,
+            ),
+            const Divider(),
+            SizedBox(
+              height: 12.h,
+            ),
+            Container(
+              color: AppColors.darkGreen,
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+            )
           ],
         ),
       ),
