@@ -132,10 +132,43 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 12.h,
                 ),
-                Container(
-                    color: AppColors.darkGreen,
+                GestureDetector(
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const LoadingAnimation(
+                          opacity: 0.4,
+                          height: 40,
+                          width: 40,
+                        );
+                      },
+                    );
+                    await FirebaseAuthServices().sigupWithGoogle(context);
+                    context.pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: AppColors.darkGreen,
+                        borderRadius: BorderRadius.circular(20.r)),
                     padding:
-                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h))
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/google-color-svgrepo-com.svg',
+                          height: 28.h,
+                          width: 28.w,
+                        ),
+                        Text(
+                          'Continue With Google',
+                          style: AppTextStyles.heading3,
+                        )
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           ),
