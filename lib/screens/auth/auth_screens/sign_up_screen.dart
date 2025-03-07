@@ -45,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
       showDialog(
         context: context,
         builder: (context) {
-          return const LottieLoadingAnimation(
+          return const LoadingAnimation(
             opacity: 0.4,
             height: 100,
             width: 100,

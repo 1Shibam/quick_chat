@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return const LottieLoadingAnimation(
+          return const LoadingAnimation(
             opacity: 0.4,
             height: 100,
             width: 100,

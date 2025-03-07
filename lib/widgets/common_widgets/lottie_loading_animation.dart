@@ -1,10 +1,10 @@
 import 'package:quick_chat/Exports/common_exports.dart';
 
-class LottieLoadingAnimation extends StatelessWidget {
+class LoadingAnimation extends StatelessWidget {
   final double opacity;
   final double? height;
   final double? width;
-  const LottieLoadingAnimation(
+  const LoadingAnimation(
       {super.key, this.opacity = 1, this.height, this.width});
 
   @override
