@@ -20,8 +20,27 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
 
   void submitForm(email) async {
     if (fromKey.currentState?.validate() ?? false) {
+      // Show loading dialog
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return const LoadingAnimation(
+            opacity: 0.4,
+            height: 100,
+            width: 100,
+          );
+        },
+      );
+
       await sendLink(email);
-      context.pop();
+
+      // Close the loading dialog
+      if (context.mounted) {
+        // Close loading dialog
+        Navigator.pop(context); // Close ResetPasswordDialog
+        Navigator.pop(context); // Close ResetPasswordDialog
+      }
     }
   }
 
@@ -58,7 +77,9 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
                 height: 16.h,
               ),
               GestureDetector(
-                onTap: () => submitForm(emailController.text),
+                onTap: () {
+                  submitForm(emailController.text);
+                },
                 child: const BuildPrimaryButton(text: 'Send Link'),
               ),
               SizedBox(

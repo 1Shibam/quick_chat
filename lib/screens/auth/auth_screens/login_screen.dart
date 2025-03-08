@@ -3,7 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
-import 'package:quick_chat/preferences/login_page_preference.dart';
+
 
 import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/screens/auth/widgets/reset_password_dialog.dart';
@@ -207,10 +207,11 @@ class _LoginPageState extends State<LoginPage> {
           context, emailController.text.trim(), passController.text.trim());
       //check if email is verified -
       final user = FirebaseAuth.instance.currentUser;
-      if (user != null && user.emailVerified) {
-        setLoginPreference(true);
-
-        Navigator.pop(context);
+      Navigator.pop(context);
+      if (user == null) {
+        return;
+      }
+      if (user.emailVerified) {
         context.go(RouterNames.home);
       } else {
         Navigator.pop(context);

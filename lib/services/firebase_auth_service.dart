@@ -55,13 +55,16 @@ class FirebaseAuthServices {
       BuildContext context, String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      if (context.mounted) {
+        buildSnackBar(context, 'Welcome Back!!');
+      }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Login failed';
       // print(e.code);
 
       switch (e.code) {
         case 'invalid-credential':
-          errorMessage = 'There is no user with this email';
+          errorMessage = 'Please enter email and password correct';
           break;
         case 'wrong-password':
           errorMessage = 'Incorrect password';
@@ -107,7 +110,8 @@ class FirebaseAuthServices {
     try {
       await _auth.sendPasswordResetEmail(email: email);
       if (context.mounted) {
-        buildSnackBar(context, 'Password reset email sent!',
+        buildSnackBar(
+            context, 'If an account exists, a reset email has been sent!',
             bgColor: AppColors.darkGreen);
       }
     } on FirebaseAuthException catch (e) {
