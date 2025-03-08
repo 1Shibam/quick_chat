@@ -101,6 +101,22 @@ class FirebaseAuthServices {
     }
   }
 
+  //! Forgot password - Reset passwor --
+
+  Future<void> forgotPasswordReset(BuildContext context, String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      if (context.mounted) {
+        buildSnackBar(context, 'Password reset email sent!',
+            bgColor: AppColors.darkGreen);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Error - ${e.message}');
+      }
+    }
+  }
+
   //! signup / signin with google with google -
   Future<void> sigupWithGoogle(BuildContext context) async {
     try {
