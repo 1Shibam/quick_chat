@@ -1,6 +1,7 @@
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
+import 'package:quick_chat/widgets/common_widgets/cirular_loader.dart';
 
 class ResetPasswordDialog extends StatefulWidget {
   const ResetPasswordDialog({super.key});
@@ -21,17 +22,7 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
   void submitForm(email) async {
     if (fromKey.currentState?.validate() ?? false) {
       // Show loading dialog
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return const LoadingAnimation(
-            opacity: 0.4,
-            height: 100,
-            width: 100,
-          );
-        },
-      );
+      ciruclarLoader(context);
 
       await sendLink(email);
 

@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
 
-
 import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/screens/auth/widgets/reset_password_dialog.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
+import 'package:quick_chat/widgets/common_widgets/cirular_loader.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -46,17 +46,7 @@ class _LoginPageState extends State<LoginPage> {
     if (formkey.currentState!.validate()) {
       //! showing loading dialog before login starts
 
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return const LoadingAnimation(
-            opacity: 0.4,
-            height: 100,
-            width: 100,
-          );
-        },
-      );
+      ciruclarLoader(context);
 
       await attemptLogin();
     } else {
@@ -154,16 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const LoadingAnimation(
-                            opacity: 0.4,
-                            height: 40,
-                            width: 40,
-                          );
-                        },
-                      );
+                      ciruclarLoader(context);
                       await FirebaseAuthServices().sigupWithGoogle(context);
                       context.pop();
                     },
