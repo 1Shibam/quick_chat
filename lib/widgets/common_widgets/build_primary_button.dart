@@ -5,7 +5,13 @@ import 'package:quick_chat/theme/text_styles.dart';
 
 class BuildPrimaryButton extends StatelessWidget {
   final String text;
-  const BuildPrimaryButton({super.key, required this.text});
+  final Color color;
+  final Color borderColor;
+  const BuildPrimaryButton(
+      {super.key,
+      required this.text,
+      this.color = AppColors.darkGreen,
+      this.borderColor = AppColors.darkGreenAccent});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +19,8 @@ class BuildPrimaryButton extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 8.h),
         decoration: BoxDecoration(
-          color: AppColors.darkGreen,
+          color: color,
+          border: Border.all(color: borderColor, width: 2),
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(
