@@ -104,6 +104,8 @@ class FirebaseAuthServices {
   //! signup / signin with google with google -
   Future<void> sigupWithGoogle(BuildContext context) async {
     try {
+      //? making sure the previous accounts are signed out if the users did sign out -
+      await GoogleSignIn().signOut();
       //? Starting the singUp process!!
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
@@ -135,7 +137,9 @@ class FirebaseAuthServices {
         }
       }
     } on FirebaseAuthException catch (e) {
-      if (context.mounted) buildSnackBar(context, 'something went wrong : ${e.message}');
+      if (context.mounted) {
+        buildSnackBar(context, 'something went wrong : ${e.message}');
+      }
     }
   }
 }
