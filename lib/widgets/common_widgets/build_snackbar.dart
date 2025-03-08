@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quick_chat/theme/app_colors.dart';
 import 'package:quick_chat/theme/text_styles.dart';
 
 void buildSnackBar(BuildContext context, String yapp,
