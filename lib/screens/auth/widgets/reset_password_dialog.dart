@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
@@ -27,11 +29,11 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
       await sendLink(email);
 
       // Close the loading dialog
-      if (context.mounted) {
+      
         // Close loading dialog
         Navigator.pop(context); // Close ResetPasswordDialog
         Navigator.pop(context); // Close ResetPasswordDialog
-      }
+      
     }
   }
 
