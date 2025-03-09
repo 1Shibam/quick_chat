@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,11 +10,15 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(const ProviderScope(child: QuickChatApp()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const ProviderScope(child: QuickChatApp()));
+  });
 }
 
 class QuickChatApp extends StatelessWidget {
