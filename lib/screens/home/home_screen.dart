@@ -16,62 +16,64 @@ class HomeScreen extends StatelessWidget {
               child: const HomeScreenAppBar()),
           drawer: const DrawerWidgetHomeScreen(),
           floatingActionButton: const FloadingActionButton(),
-          body: Scrollbar(
-              child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: const HomeScreenSearchBar(),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          contentPadding: EdgeInsets.symmetric(vertical: 4.h),
-
-                          //leading icon for profile images
-                          leading: CircleAvatar(
-                            radius: 28.r,
-                          ),
-
-                          //title name of the user --
-                          title: Text(
-                            'UserName',
-                            style: AppTextStyles.heading2,
-                          ),
-
-                          //last message sent as subtitle
-                          subtitle: Text(
-                            'bro were cooked',
-                            style: AppTextStyles.caption,
-                          ),
-
-                          //last time of interaction or communication  --
-
-                          trailing: Text(
-                            DateTime.now()
-                                .toString()
-                                .split(' ')[1]
-                                .split('.')[0],
-                            style: AppTextStyles.buttonText,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        )
-                      ],
-                    );
-                  },
-                  itemCount: 27,
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Column(
+              children: [
+                const HomeScreenSearchBar(),
+                SizedBox(
+                  height: 12.h,
                 ),
-              ),
-            ],
-          ))),
+                Expanded(
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            ListTile(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 4.h),
+
+                              //leading icon for profile images
+                              leading: CircleAvatar(
+                                radius: 28.r,
+                              ),
+
+                              //title name of the user --
+                              title: Text(
+                                'UserName',
+                                style: AppTextStyles.heading2,
+                              ),
+
+                              //last message sent as subtitle
+                              subtitle: Text(
+                                'bro were cooked',
+                                style: AppTextStyles.caption,
+                              ),
+
+                              //last time of interaction or communication  --
+
+                              trailing: Text(
+                                DateTime.now()
+                                    .toString()
+                                    .split(' ')[1]
+                                    .split('.')[0],
+                                style: AppTextStyles.buttonText,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            )
+                          ],
+                        );
+                      },
+                      itemCount: 27,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
