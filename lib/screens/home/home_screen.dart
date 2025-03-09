@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,12 +21,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: SearchBar(
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.r))),
-                  backgroundColor:
-                      const WidgetStatePropertyAll(AppColors.darkGreen),
-                ),
+                child: const HomeScreenSearchBar(),
               ),
               SizedBox(
                 height: 12.h,
@@ -35,12 +33,36 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         ListTile(
                           contentPadding: EdgeInsets.symmetric(vertical: 4.h),
+
+                          //leading icon for profile images
                           leading: CircleAvatar(
-                            radius: 32.r,
+                            radius: 28.r,
+                          ),
+
+                          //title name of the user --
+                          title: Text(
+                            'UserName',
+                            style: AppTextStyles.heading2,
+                          ),
+
+                          //last message sent as subtitle
+                          subtitle: Text(
+                            'bro were cooked',
+                            style: AppTextStyles.caption,
+                          ),
+
+                          //last time of interaction or communication  --
+
+                          trailing: Text(
+                            DateTime.now()
+                                .toString()
+                                .split(' ')[1]
+                                .split('.')[0],
+                            style: AppTextStyles.buttonText,
                           ),
                         ),
                         SizedBox(
-                          height: 4.h,
+                          height: 2.h,
                         )
                       ],
                     );
@@ -50,6 +72,42 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ))),
+    );
+  }
+}
+
+//Extracted the search bar -- search logic later
+class HomeScreenSearchBar extends StatelessWidget {
+  const HomeScreenSearchBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SearchBar(
+      hintText: 'Search Chat',
+      hintStyle: WidgetStatePropertyAll(AppTextStyles.heading3),
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Platform.isIOS ? CupertinoIcons.search : Icons.search_rounded,
+            color: AppColors.softWhite,
+            size: 28.sp,
+          ),
+          SizedBox(width: 8.w), // Spacing before the divider
+          SizedBox(
+              height: 24.h, // Ensure it has a height
+              child: const VerticalDivider(
+                color: AppColors.softWhite,
+                thickness: 1.5,
+                width: 1, // Controls the width of the empty space around it
+              )),
+        ],
+      ),
+      shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r))),
+      backgroundColor: const WidgetStatePropertyAll(AppColors.darkGreen),
     );
   }
 }
