@@ -57,7 +57,8 @@ class HomeScreen extends StatelessWidget {
                                 DateTime.now()
                                     .toString()
                                     .split(' ')[1]
-                                    .split('.')[0],
+                                    .split('.')[0]
+                                    .substring(0, 5),
                                 style: AppTextStyles.buttonText,
                               ),
                             ),
@@ -169,7 +170,7 @@ class DrawerWidgetHomeScreen extends StatelessWidget {
                   context.go(RouterNames.splash);
                 },
                 icon: const Icon(Icons.logout)),
-          )
+          ),
         ],
       ),
     );
