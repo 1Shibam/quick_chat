@@ -1,8 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/services/firestore_services.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,52 +28,33 @@ class HomeScreen extends StatelessWidget {
                   height: 12.h,
                 ),
                 Expanded(
-                  child: Scrollbar(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            ListTile(
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 4.h),
-
-                              //leading icon for profile images
-                              leading: CircleAvatar(
-                                radius: 28.r,
-                              ),
-
-                              //title name of the user --
-                              title: Text(
-                                'UserName',
-                                style: AppTextStyles.heading2,
-                              ),
-
-                              //last message sent as subtitle
-                              subtitle: Text(
-                                'bro were cooked',
-                                style: AppTextStyles.caption,
-                              ),
-
-                              //last time of interaction or communication  --
-
-                              trailing: Text(
-                                DateTime.now()
-                                    .toString()
-                                    .split(' ')[1]
-                                    .split('.')[0]
-                                    .substring(0, 5),
-                                style: AppTextStyles.buttonText,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 2.h,
-                            )
-                          ],
-                        );
-                      },
-                      itemCount: 27,
-                    ),
-                  ),
+                  child: Scrollbar(child: Consumer(
+                    builder: (context, ref, child) {
+                      final user = ref.watch(userProvider);
+                      return user.when(data: (snapshots) {
+                        final data = snapshots.docs;
+                        if (data.isNotEmpty) {
+                          log('Data = $data, length: ${data.length}');
+                          return ListView.builder(
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              log('${data[index].data()['username']}');
+                              return ListTile(
+                                title:
+                                    Text('${data[index].data()['username']}'),
+                              );
+                            },
+                          );
+                        } else {
+                          return const Text('got and issue maybe no users ');
+                        }
+                      }, error: (error, stackTrace) {
+                        return const Text('something\'s wrong');
+                      }, loading: () {
+                        return const CircularProgressIndicator();
+                      });
+                    },
+                  )),
                 ),
               ],
             ),
