@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/services/firestore_services.dart';
 
 import 'package:quick_chat/widgets/common_widgets/build_snackbar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -54,7 +55,13 @@ class FirebaseAuthServices {
   Future<void> loginWithEmail(
       BuildContext context, String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      User? user = userCredential.user;
+      if (user != null && user.emailVerified) {
+        // Call createUserProfile() only if email is verified
+        await FirestoreServices().createUserProfile();
+      }
       if (context.mounted) {
         buildSnackBar(context, 'Welcome Back!!');
       }
@@ -150,6 +157,7 @@ class FirebaseAuthServices {
           await _auth.signInWithCredential(credential);
 
       if (userCredential.user != null) {
+        await FirestoreServices().createUserProfile();
         if (context.mounted) {
           buildSnackBar(
               context, 'Welcome , ${userCredential.user!.displayName}!');
