@@ -1,4 +1,4 @@
-class UserModel {
+class ChatUserModel {
   final String userID;
   final String username;
   final String email;
@@ -11,7 +11,7 @@ class UserModel {
   final String pushToken;
   final String createdAt;
   final String profileUrl;
-  UserModel(
+  ChatUserModel(
       {required this.userID,
       required this.username,
       required this.email,
@@ -25,8 +25,8 @@ class UserModel {
       required this.createdAt,
       required this.profileUrl});
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
+  factory ChatUserModel.fromJson(Map<String, dynamic> json) {
+    return ChatUserModel(
         userID: json['user_id'],
         username: json['username'] ?? '',
         email: json['email'] ?? '',
