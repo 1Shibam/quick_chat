@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,25 +30,26 @@ class HomeScreen extends StatelessWidget {
                   child: Scrollbar(child: Consumer(
                     builder: (context, ref, child) {
                       final user = ref.watch(userProvider);
-                      return user.when(data: (snapshots) {
-                        final data = snapshots.docs;
-                        if (data.isNotEmpty) {
-                          log('Data = $data, length: ${data.length}');
-                          return ListView.builder(
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              log('${data[index].data()['username']}');
-                              return ListTile(
-                                title:
-                                    Text('${data[index].data()['username']}'),
-                              );
-                            },
+                      return user.when(data: (user) {
+                        if (user.isEmpty) {
+                          return const Center(
+                            child: Text('no users available'),
                           );
-                        } else {
-                          return const Text('got and issue maybe no users ');
                         }
+                        return ListView.builder(
+                          itemCount: user.length,
+                          itemBuilder: (context, index) {
+                            final singleUser = user[index];
+                            return ListTile(
+                              
+                              title: Text(singleUser.username),
+                            );
+                          },
+                        );
                       }, error: (error, stackTrace) {
-                        return const Text('something\'s wrong');
+                        debugPrint('Firestore Stream Error: $error');
+                        debugPrintStack(stackTrace: stackTrace);
+                        return const Text('Something went wrong');
                       }, loading: () {
                         return const CircularProgressIndicator();
                       });
