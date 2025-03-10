@@ -28,7 +28,10 @@ class FirestoreServices {
       lastActive: '',
       gender: 'not specified',
       pushToken: '',
-      createdAt: Timestamp.now().toString(), // Use Firestore Timestamp
+      createdAt: Timestamp.now()
+          .toDate()
+          .toIso8601String()
+          .split('.')[0], // Use Firestore Timestamp
       profileUrl: '',
     );
 
@@ -39,9 +42,12 @@ class FirestoreServices {
 // Stream provider for fetching all users
 final userProvider = StreamProvider<List<ChatUserModel>>((ref) {
   try {
-    final snapshots = FirebaseFirestore.instance.collection('chatUsers').snapshots();
+    final snapshots =
+        FirebaseFirestore.instance.collection('chatUsers').snapshots();
     final users = snapshots.map((snap) {
-      return snap.docs.map((doc) => ChatUserModel.fromJson(doc.data())).toList();
+      return snap.docs
+          .map((doc) => ChatUserModel.fromJson(doc.data()))
+          .toList();
     });
     return users;
   } on FirebaseException catch (error, stackTrace) {
