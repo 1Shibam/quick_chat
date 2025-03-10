@@ -18,6 +18,25 @@ class FirestoreServices {
             .get())
         .exists;
   }
+    //Create user -
+  Future<ChatUserModel> createUserProfile() async {
+    final user = _auth.currentUser!;
+
+    final userInfo = ChatUserModel(
+        userID: user.uid,
+        username: user.displayName.toString(),
+        email: user.email!,
+        bio: '',
+        dob: '',
+        fullName: user.displayName.toString(),
+        isOnline: false,
+        lastActive: '',
+        gender: 'not specified',
+        pushToken: '',
+        createdAt: DateTime.now().toString(),
+        profileUrl: '');
+    return userInfo;
+  }
 
 
 }
