@@ -18,7 +18,8 @@ class FirestoreServices {
             .get())
         .exists;
   }
-    //Create user -
+
+  //Create user -
   Future<ChatUserModel> createUserProfile() async {
     final user = _auth.currentUser!;
 
@@ -37,8 +38,6 @@ class FirestoreServices {
         profileUrl: '');
     return userInfo;
   }
-
-
 }
 
 final userProvider = StreamProvider<List<ChatUserModel>>((ref) {
