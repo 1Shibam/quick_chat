@@ -41,7 +41,7 @@ class ChatUserModel {
         profileUrl: json['profileUrl'] ?? '');
   }
 
-  Map<String, dynamic> fromJson() {
+  Map<String, dynamic> toJson() {
     return {
       'bio': bio,
       'username': username,
