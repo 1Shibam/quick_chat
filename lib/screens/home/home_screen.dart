@@ -1,9 +1,9 @@
-import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/screens/home/widget/drawer_widget.dart';
+import 'package:quick_chat/screens/home/widget/floating_action_button.dart';
+import 'package:quick_chat/screens/home/widget/home_screen_appbar.dart';
+import 'package:quick_chat/screens/home/widget/home_screen_searchbar.dart';
 import 'package:quick_chat/services/firestore_services.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -41,7 +41,6 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final singleUser = user[index];
                             return ListTile(
-                              
                               title: Text(singleUser.username),
                             );
                           },
@@ -59,126 +58,6 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           )),
-    );
-  }
-}
-
-//Extracted the search bar -- search logic later
-class HomeScreenSearchBar extends StatelessWidget {
-  const HomeScreenSearchBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SearchBar(
-      hintText: 'Search Chat',
-      hintStyle: WidgetStatePropertyAll(AppTextStyles.heading3),
-      leading: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Platform.isIOS ? CupertinoIcons.search : Icons.search_rounded,
-            color: AppColors.softWhite,
-            size: 28.sp,
-          ),
-          SizedBox(width: 8.w), // Spacing before the divider
-          SizedBox(
-              height: 24.h, // Ensure it has a height
-              child: const VerticalDivider(
-                color: AppColors.softWhite,
-                thickness: 1.5,
-                width: 1, // Controls the width of the empty space around it
-              )),
-        ],
-      ),
-      shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r))),
-      backgroundColor: const WidgetStatePropertyAll(AppColors.darkGreen),
-    );
-  }
-}
-
-// Home screen App - Bar
-class HomeScreenAppBar extends StatelessWidget {
-  const HomeScreenAppBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        foregroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-        title: const Text('QuickChat'),
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-                onPressed: () => Scaffold.of(context).openDrawer(),
-                icon: Icon(
-                  Icons.menu,
-                  size: 40.sp,
-                  color: AppColors.softWhite,
-                ));
-          },
-        ));
-  }
-}
-
-//Home Screen drawer widget
-class DrawerWidgetHomeScreen extends StatelessWidget {
-  const DrawerWidgetHomeScreen({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      backgroundColor: AppColors.darkGreen,
-      child: ListView(
-        children: [
-          DrawerHeader(
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  'Menu',
-                  style: AppTextStyles.heading1,
-                )),
-          ),
-          ListTile(
-            title: IconButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  context.go(RouterNames.splash);
-                },
-                icon: const Icon(Icons.logout)),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-//Floating Action button will be displayed on home screen -- logic will be done later on
-class FloadingActionButton extends StatelessWidget {
-  const FloadingActionButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(8.w),
-      child: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(
-          Icons.chat,
-          color: AppColors.softGrey,
-          size: 28.sp,
-        ),
-      ),
     );
   }
 }
