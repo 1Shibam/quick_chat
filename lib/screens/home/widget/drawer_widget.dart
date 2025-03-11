@@ -22,12 +22,21 @@ class DrawerWidgetHomeScreen extends StatelessWidget {
                 )),
           ),
           ListTile(
-            title: IconButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  context.go(RouterNames.splash);
-                },
-                icon: const Icon(Icons.logout)),
+              title: Text(
+                'Profile',
+                style: AppTextStyles.heading2,
+              ),
+              leading: const Icon(Icons.person)),
+          ListTile(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+              context.go(RouterNames.splash);
+            },
+            title: Text(
+              'Log Out',
+              style: AppTextStyles.heading2,
+            ),
+            leading: const Icon(Icons.logout),
           ),
         ],
       ),
