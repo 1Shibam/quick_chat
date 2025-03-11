@@ -38,7 +38,7 @@ class ChatUserModel {
         gender: json['gender'] ?? '',
         pushToken: json['push_token'] ?? '',
         createdAt: json['created_at'] ?? '',
-        profileUrl: json['profileUrl'] ?? '');
+        profileUrl: json['profile_url'] ?? '');
   }
 
   Map<String, dynamic> toJson() {
@@ -51,7 +51,7 @@ class ChatUserModel {
       'full_name': fullName,
       'gender': gender,
       'last_active': lastActive,
-      'profileUrl': profileUrl,
+      'profile_url': profileUrl,
       'push_token': pushToken,
       'dob': dob,
       'is_online': isOnline

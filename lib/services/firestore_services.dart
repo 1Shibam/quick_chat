@@ -44,11 +44,14 @@ final userProvider = StreamProvider<List<ChatUserModel>>((ref) {
   try {
     final snapshots =
         FirebaseFirestore.instance.collection('chatUsers').snapshots();
+        
+        
     final users = snapshots.map((snap) {
       return snap.docs
           .map((doc) => ChatUserModel.fromJson(doc.data()))
           .toList();
     });
+   
     return users;
   } on FirebaseException catch (error, stackTrace) {
     debugPrint(error.message);

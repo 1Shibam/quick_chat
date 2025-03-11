@@ -39,15 +39,18 @@ class HomeScreen extends StatelessWidget {
                         itemCount: user.length,
                         itemBuilder: (context, index) {
                           final singleUser = user[index];
+
                           return ListTile(
                             leading: CircleAvatar(
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://imgs.search.brave.com/NrlZu-RbjGqH--zt6qRLLqua63hgRZuuRQziGS5ua1U/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9waXhs/ci5jb20vaW1hZ2Vz/L2luZGV4L2FpLWlt/YWdlLWdlbmVyYXRv/ci1vbmUud2VicA",
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.person),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100.r),
+                                child: CachedNetworkImage(
+                                  imageUrl: singleUser.profileUrl,
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.person),
+                                ),
                               ),
                             ),
                             title: Text(
