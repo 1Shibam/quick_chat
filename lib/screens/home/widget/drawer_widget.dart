@@ -22,6 +22,7 @@ class DrawerWidgetHomeScreen extends StatelessWidget {
                 )),
           ),
           ListTile(
+              onTap: () => context.push(RouterNames.profile),
               title: Text(
                 'Profile',
                 style: AppTextStyles.heading2,
