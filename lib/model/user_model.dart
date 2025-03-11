@@ -24,6 +24,33 @@ class ChatUserModel {
       required this.pushToken,
       required this.createdAt,
       required this.profileUrl});
+  ChatUserModel copyWith(
+      {String? userID,
+      String? username,
+      String? email,
+      String? bio,
+      String? dob,
+      String? fullName,
+      bool? isOnline,
+      String? lastActive,
+      String? gender,
+      String? pushToken,
+      String? createdAt,
+      String? profileUrl}) {
+    return ChatUserModel(
+        userID: userID ?? this.userID,
+        username: username ?? this.username,
+        email: email ?? this.email,
+        bio: bio ?? this.bio,
+        dob: dob ?? this.dob,
+        fullName: fullName ?? this.fullName,
+        isOnline: isOnline ?? this.isOnline,
+        lastActive: lastActive ?? this.lastActive,
+        gender: gender ?? this.gender,
+        pushToken: pushToken ?? this.pushToken,
+        createdAt: createdAt ?? this.createdAt,
+        profileUrl: profileUrl ?? this.profileUrl);
+  }
 
   factory ChatUserModel.fromJson(Map<String, dynamic> json) {
     return ChatUserModel(
