@@ -2,6 +2,7 @@ import 'package:quick_chat/Exports/common_exports.dart';
 
 ThemeData quickChatTheme() {
   return ThemeData(
+    iconTheme: IconThemeData(color: AppColors.softWhite, size: 32.sp),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       splashColor: AppColors.grey,
       backgroundColor: AppColors.darkGreen,
