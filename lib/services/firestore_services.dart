@@ -59,6 +59,7 @@ class FirestoreServices {
         updates: {'profile_url': imageUrl},
       );
     }
+    context.pop();
   }
 
   //update user name method
