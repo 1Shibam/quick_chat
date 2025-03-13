@@ -51,70 +51,86 @@ class ProfilePage extends StatelessWidget {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    backgroundColor: Colors.transparent,
-                                    content: Center(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              IconButton(
-                                                onPressed: () async {
-                                                  await ref
-                                                      .read(
-                                                          firestoreServiceStateNotifierProvider
-                                                              .notifier)
-                                                      .changeProfilePicture(
-                                                          context,
-                                                          userData.userID,
-                                                          ImageSource.camera);
-                                                },
-                                                icon: Icon(
-                                                  Icons.camera_alt_rounded,
-                                                  size: 40.sp,
-                                                  color: AppColors.softGrey,
-                                                ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.r),
+                                        side: BorderSide(
+                                            color: AppColors.softGrey)),
+                                    title: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          icon: Icon(
+                                            Icons.clear,
+                                            color: AppColors.softWhite,
+                                            size: 40.sp,
+                                          )),
+                                    ),
+                                    backgroundColor:
+                                        AppColors.greyBlack.withOpacity(0.5),
+                                    content: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () async {
+                                                await ref
+                                                    .read(
+                                                        firestoreServiceStateNotifierProvider
+                                                            .notifier)
+                                                    .changeProfilePicture(
+                                                        context,
+                                                        userData.userID,
+                                                        ImageSource.camera);
+                                              },
+                                              icon: Icon(
+                                                Icons.camera_alt_rounded,
+                                                size: 40.sp,
+                                                color: AppColors.softGrey,
                                               ),
-                                              Text(
-                                                'Camera',
-                                                style: AppTextStyles.heading2,
-                                              )
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              IconButton(
-                                                onPressed: () async {
-                                                  await ref
-                                                      .read(
-                                                          firestoreServiceStateNotifierProvider
-                                                              .notifier)
-                                                      .changeProfilePicture(
-                                                          context,
-                                                          userData.userID,
-                                                          ImageSource.gallery);
-                                                },
-                                                icon: Icon(
-                                                  Icons.image,
-                                                  size: 40.sp,
-                                                  color: AppColors.softGrey,
-                                                ),
+                                            ),
+                                            Text(
+                                              'Camera',
+                                              style: AppTextStyles.heading2,
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () async {
+                                                await ref
+                                                    .read(
+                                                        firestoreServiceStateNotifierProvider
+                                                            .notifier)
+                                                    .changeProfilePicture(
+                                                        context,
+                                                        userData.userID,
+                                                        ImageSource.gallery);
+                                              },
+                                              icon: Icon(
+                                                Icons.image,
+                                                size: 40.sp,
+                                                color: AppColors.softGrey,
                                               ),
-                                              Text(
-                                                'Gallery',
-                                                style: AppTextStyles.heading2,
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                            ),
+                                            Text(
+                                              'Gallery',
+                                              style: AppTextStyles.heading2,
+                                            )
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
