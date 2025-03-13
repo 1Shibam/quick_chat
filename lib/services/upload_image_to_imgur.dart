@@ -26,7 +26,7 @@ Future<String?> uploadImageToImgur(BuildContext context, File imageFile) async {
       ),
       'type': 'image',
       'title': 'Profile Picture',
-      'description': 'uploaded via quick Chat App' 
+      'description': 'uploaded via quick Chat App'
     });
 
     final response = await dio.post('/image',
