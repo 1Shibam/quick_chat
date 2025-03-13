@@ -45,24 +45,35 @@ class FirestoreServices {
 
   //update profile picture in firestore --
 
-  Future<void> updateUploadProfileUrl(
+  Future<void> updateProfilePicture(
       String userId, ImageSource source, BuildContext context) async {
-    final docRef = firestore.collection('chatUsers').doc(userId);
-    final snapshot = await docRef.get();
-    if (!snapshot.exists) return;
-    if (!context.mounted) return;
     File? image = await pickImage(source, context);
     if (image == null) return;
     if (!context.mounted) return;
+
     String? imageUrl = await uploadImageToImgur(context, image);
-    if (imageUrl != null) {
-      await docRef.update({
-        'profile_url': imageUrl, // Make sure this matches Firestore field name
-      });
+    if (imageUrl != null && context.mounted) {
+      await updateUserData(
+        userID: userId,
+        context: context,
+        updates: {'profile_url': imageUrl},
+      );
     }
   }
 
-  // update user name -
+  // Single method to update user Data -
+  Future<void> updateUserData(
+      {required String userID,
+      required Map<String, dynamic> updates,
+      required BuildContext context}) async {
+    try {
+      await firestore.collection('chatUsers').doc(userID).update(updates);
+    } on FirebaseAuthException catch (error) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Error: $error');
+      }
+    }
+  }
 }
 
 // Stream provider for fetching all users
