@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/services/firestore_services.dart';
 
@@ -12,6 +13,19 @@ class FirestoreServiceNotifier extends StateNotifier<FirestoreServices> {
   Future<bool> createProfile(BuildContext context) async {
     try {
       await state.createUserProfile();
+      if (context.mounted) {
+        buildSnackBar(context, 'User creation successfull');
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> changeProfilePicture(
+      BuildContext context, String userID, ImageSource imageSource) async {
+    try {
+      await state.updateProfilePicture(userID, imageSource, context);
       if (context.mounted) {
         buildSnackBar(context, 'User creation successfull');
       }
@@ -102,3 +116,9 @@ class FirestoreServiceNotifier extends StateNotifier<FirestoreServices> {
     }
   }
 }
+
+final firestoreServiceStateNotifierProvider =
+    StateNotifierProvider<FirestoreServiceNotifier, FirestoreServices>((ref) {
+  final services = ref.watch(firestoreServiceProvider);
+  return FirestoreServiceNotifier(services);
+});
