@@ -27,7 +27,7 @@ class FirestoreServiceNotifier extends StateNotifier<FirestoreServices> {
     try {
       await state.updateProfilePicture(userID, imageSource, context);
       if (context.mounted) {
-        buildSnackBar(context, 'User creation successfull');
+        buildSnackBar(context, 'Update successfull');
       }
       return true;
     } catch (e) {
