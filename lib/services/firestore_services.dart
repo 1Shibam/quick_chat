@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/model/user_model.dart';
+import 'package:quick_chat/services/pick_image.dart';
 import 'package:quick_chat/services/upload_image_to_imgur.dart';
 
 class FirestoreServices {
@@ -61,60 +61,93 @@ class FirestoreServices {
     }
   }
 
-  // Single method to update user Data -
+  //update user name method
+
+  Future<void> updateUserName(
+      {required String userID,
+      required String newUserName,
+      required BuildContext context}) async {
+    try {
+      await updateUserData(
+          userID: userID, updates: {'username': newUserName}, context: context);
+    } on FirebaseException catch (e) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Error - $e');
+      }
+    }
+  }
+
+  //update full name method
+  Future<void> updateFullName(
+      {required String userID,
+      required String newName,
+      required BuildContext context}) async {
+    try {
+      await updateUserData(
+          userID: userID, updates: {'full_name': newName}, context: context);
+    } on FirebaseException catch (e) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Error - $e');
+      }
+    }
+  }
+
+  //update user bio
+  Future<void> updateBio(
+      {required String userID,
+      required String newBio,
+      required BuildContext context}) async {
+    try {
+      await updateUserData(
+          userID: userID, updates: {'bio': newBio}, context: context);
+    } on FirebaseException catch (e) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Error - $e');
+      }
+    }
+  }
+
+  //change user gender - lmao no.........
+  Future<void> updateGender(
+      {required String userID,
+      required String newGeder,
+      required BuildContext context}) async {
+    try {
+      await updateUserData(
+          userID: userID, updates: {'gender': newGeder}, context: context);
+    } on FirebaseException catch (e) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Error - $e');
+      }
+    }
+  }
+
+  //change dob ---
+  Future<void> updateDOB(
+      {required String userID,
+      required String newDob,
+      required BuildContext context}) async {
+    try {
+      await updateUserData(
+          userID: userID, updates: {'dob': newDob}, context: context);
+    } on FirebaseException catch (e) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Error - $e');
+      }
+    }
+  }
+
+  // Single method to update user Data - this method finalizes updates
   Future<void> updateUserData(
       {required String userID,
       required Map<String, dynamic> updates,
       required BuildContext context}) async {
     try {
       await firestore.collection('chatUsers').doc(userID).update(updates);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseException catch (error) {
       if (context.mounted) {
         buildSnackBar(context, 'Error: $error');
       }
     }
   }
 }
-
-// Stream provider for fetching all users
-final userProvider = StreamProvider<List<ChatUserModel>>((ref) {
-  try {
-    final snapshots =
-        FirebaseFirestore.instance.collection('chatUsers').snapshots();
-
-    final users = snapshots.map((snap) {
-      return snap.docs
-          .map((doc) => ChatUserModel.fromJson(doc.data()))
-          .toList();
-    });
-
-    return users;
-  } on FirebaseException catch (error, stackTrace) {
-    debugPrint(error.message);
-    debugPrintStack(stackTrace: stackTrace);
-    rethrow;
-  } catch (e, stackTrace) {
-    debugPrint("Unexpected Error: $e");
-    debugPrintStack(stackTrace: stackTrace);
-    rethrow;
-  }
-});
-
-//pick image from gallery
-
-Future<File?> pickImage(ImageSource source, BuildContext context) async {
-  try {
-    final pickedFile = await ImagePicker().pickImage(source: source);
-    if (pickedFile != null) {
-      return File(pickedFile.path);
-    }
-    return null;
-  } catch (e) {
-    if (context.mounted) {
-      buildSnackBar(context, 'Process Cancelled', bgColor: AppColors.errorRed);
-    }
-    rethrow;
-  }
-}
-
-//later fix this ----- 
