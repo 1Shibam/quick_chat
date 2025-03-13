@@ -6,6 +6,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => context.pop(),
@@ -17,8 +18,9 @@ class ProfilePage extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.w),
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Stack(
@@ -110,25 +112,15 @@ class ProfilePage extends StatelessWidget {
               SizedBox(
                 height: 16.h,
               ),
-              const Expanded(
-                child: ProfileTiles(title: 'Username', value: 'johndoe123'),
+              ProfileTiles(title: 'Username', value: 'johndoe123'),
+              ProfileTiles(title: 'Name', value: 'John Doe'),
+              ProfileTiles(
+                title: 'Status',
+                value: 'Offline',
               ),
-              const Expanded(
-                child: ProfileTiles(title: 'Name', value: 'John Doe'),
-              ),
-              const Expanded(
-                child: ProfileTiles(
-                  title: 'Status',
-                  value: 'Offline',
-                ),
-              ),
-              const Expanded(
-                child: ProfileTiles(
-                    title: 'Bio', value: 'Flutter enthusiast & Developer'),
-              ),
-              const Expanded(
-                child: ProfileTiles(title: 'Email', value: 'johndoe@email.com'),
-              ),
+              ProfileTiles(
+                  title: 'Bio', value: 'Flutter enthusiast & Developer'),
+              ProfileTiles(title: 'Email', value: 'johndoe@email.com'),
             ],
           ),
         ),
@@ -144,22 +136,14 @@ class ProfileTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ListTile(
-          title: Text(
-            title,
-            style: AppTextStyles.heading3
-                .copyWith(color: AppColors.darkGreenAccent),
-          ),
-          subtitle: Text(value, style: AppTextStyles.bodyText),
-        ),
-        Divider(
-          indent: 16.w,
-          endIndent: 16.w,
-        )
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8.h),
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUnfocus,
+        initialValue: value,
+        style: AppTextStyles.bodyText,
+        decoration: InputDecoration(labelText: title),
+      ),
     );
   }
 }
