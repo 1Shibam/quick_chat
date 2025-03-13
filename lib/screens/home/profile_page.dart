@@ -46,14 +46,7 @@ class ProfilePage extends StatelessWidget {
                           bottom: 8.h,
                           right: 2.w,
                           child: GestureDetector(
-                            onTap: () async {
-                              //Update profile logic --
-                              await ref
-                                  .read(firestoreServiceStateNotifierProvider
-                                      .notifier)
-                                  .changeProfilePicture(context,
-                                      userData.userID, ImageSource.camera);
-
+                            onTap: () {
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -69,10 +62,22 @@ class ProfilePage extends StatelessWidget {
                                                 MainAxisAlignment.center,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Icon(
-                                                Icons.camera_alt_rounded,
-                                                size: 40.sp,
-                                                color: AppColors.softGrey,
+                                              IconButton(
+                                                onPressed: () async {
+                                                  await ref
+                                                      .read(
+                                                          firestoreServiceStateNotifierProvider
+                                                              .notifier)
+                                                      .changeProfilePicture(
+                                                          context,
+                                                          userData.userID,
+                                                          ImageSource.camera);
+                                                },
+                                                icon: Icon(
+                                                  Icons.camera_alt_rounded,
+                                                  size: 40.sp,
+                                                  color: AppColors.softGrey,
+                                                ),
                                               ),
                                               Text(
                                                 'Camera',
@@ -85,10 +90,22 @@ class ProfilePage extends StatelessWidget {
                                                 MainAxisAlignment.center,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Icon(
-                                                Icons.image,
-                                                size: 40.sp,
-                                                color: AppColors.softGrey,
+                                              IconButton(
+                                                onPressed: () async {
+                                                  await ref
+                                                      .read(
+                                                          firestoreServiceStateNotifierProvider
+                                                              .notifier)
+                                                      .changeProfilePicture(
+                                                          context,
+                                                          userData.userID,
+                                                          ImageSource.gallery);
+                                                },
+                                                icon: Icon(
+                                                  Icons.image,
+                                                  size: 40.sp,
+                                                  color: AppColors.softGrey,
+                                                ),
                                               ),
                                               Text(
                                                 'Gallery',
