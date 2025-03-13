@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                       debugPrintStack(stackTrace: stackTrace);
                       return const Text('Something went wrong');
                     }, loading: () {
-                      return const CircularProgressIndicator();
+                      return const Center(child: CircularProgressIndicator());
                     });
                   },
                 )),
