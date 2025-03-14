@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/Exports/widgets_export.dart';
 import 'package:quick_chat/model/user_model.dart';
 import 'package:quick_chat/providers/firestore_service_provider.dart';
 import 'package:quick_chat/providers/user_provider.dart';
@@ -107,6 +108,7 @@ class ProfilePage extends StatelessWidget {
                                     userId: userData.userID,
                                     initialVal: userData.bio,
                                     title: 'Bio',
+                                    updateField: UpdateFields.bio,
                                   );
                                 },
                               );
@@ -270,15 +272,19 @@ class ProfileTiles extends StatelessWidget {
   }
 }
 
+enum UpdateFields { bio, username, fullName }
+
 class ShowDetailUpdateDialog extends StatefulWidget {
   const ShowDetailUpdateDialog(
       {super.key,
       required this.initialVal,
       required this.title,
-      required this.userId});
+      required this.userId,
+      required this.updateField});
   final String userId;
   final String initialVal;
   final String title;
+  final UpdateFields updateField;
 
   @override
   State<ShowDetailUpdateDialog> createState() => _ShowDetailUpdateDialogState();
@@ -307,6 +313,27 @@ class _ShowDetailUpdateDialogState extends State<ShowDetailUpdateDialog> {
         //if no changes are made
         context.pop();
         return;
+      }
+      switch (widget.updateField) {
+        case UpdateFields.bio:
+          await ref
+              .read(firestoreServiceStateNotifierProvider.notifier)
+              .changeBio(context, widget.userId, newVal);
+          break;
+        case UpdateFields.username:
+          await ref
+              .read(firestoreServiceStateNotifierProvider.notifier)
+              .changeUserName(context, widget.userId, newVal);
+          break;
+
+        case UpdateFields.fullName:
+          await ref
+              .read(firestoreServiceStateNotifierProvider.notifier)
+              .changeFullName(context, widget.userId, newVal);
+          break;
+
+        default:
+          buildSnackBar(context, 'bro tf you on');
       }
     }
   }
