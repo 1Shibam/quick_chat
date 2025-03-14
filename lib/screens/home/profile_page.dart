@@ -24,81 +24,105 @@ class ProfilePage extends StatelessWidget {
         ),
         body: Consumer(
           builder: (context, ref, child) {
-            final userData = ref.watch(userProvider).value!.first;
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100.r),
-                          child: CircleAvatar(
-                            backgroundColor: AppColors.darkGreen,
-                            radius: 80.r,
-                            child: CachedNetworkImage(
-                                imageUrl: userData.profileUrl),
+            final userAsync = ref.watch(userProvider);
+
+            return userAsync.when(
+                data: (data) {
+                  if (data.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No user Available',
+                        style: AppTextStyles.heading2,
+                      ),
+                    );
+                  }
+                  final userData = data.first;
+                  return Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.w),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(100.r),
+                                child: CircleAvatar(
+                                  backgroundColor: AppColors.darkGreen,
+                                  radius: 80.r,
+                                  child: CachedNetworkImage(
+                                      imageUrl: userData.profileUrl.isNotEmpty
+                                          ? userData.profileUrl
+                                          : 'assets/images/profile-circle-svgrepo-com.svg'),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 8.h,
+                                right: 2.w,
+                                child: ImageSelectionOptionWidget(
+                                    userData: userData),
+                              )
+                            ],
                           ),
-                        ),
-                        Positioned(
-                          bottom: 8.h,
-                          right: 2.w,
-                          child: ImageSelectionOptionWidget(userData: userData),
-                        )
-                      ],
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          Text(
+                            'Joined At: ${userData.createdAt.split('T')[0]}',
+                            style: AppTextStyles.bodyText,
+                          ),
+                          Text(
+                            userData.isOnline ? 'Online' : 'Offline',
+                            style: AppTextStyles.bodyText,
+                          ),
+                          SizedBox(
+                            height: 16.h,
+                          ),
+                          ProfileTiles(
+                            title: 'Username',
+                            value: userData.username,
+                            onPressed: () {},
+                          ),
+                          ProfileTiles(
+                            title: 'Email',
+                            value: userData.email,
+                            onPressed: () {},
+                          ),
+                          ProfileTiles(
+                            title: 'Full Name',
+                            value: userData.fullName,
+                            onPressed: () {},
+                          ),
+                          ProfileTiles(
+                            title: 'Bio',
+                            value: userData.bio,
+                            onPressed: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return ShowDetailUpdateDialog(
+                                    userId: userData.userID,
+                                    initialVal: userData.bio,
+                                    title: 'Bio',
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 2.h,
+                  );
+                },
+                error: (error, stackTrace) => Center(
+                      child: Text(
+                        'Something went wrong',
+                        style: AppTextStyles.heading2,
+                      ),
                     ),
-                    Text(
-                      'Joined At: ${userData.createdAt.split('T')[0]}',
-                      style: AppTextStyles.bodyText,
-                    ),
-                    Text(
-                      userData.isOnline ? 'Online' : 'Offline',
-                      style: AppTextStyles.bodyText,
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    ProfileTiles(
-                      title: 'Username',
-                      value: userData.username,
-                      onPressed: () {},
-                    ),
-                    ProfileTiles(
-                      title: 'Email',
-                      value: userData.email,
-                      onPressed: () {},
-                    ),
-                    ProfileTiles(
-                      title: 'Full Name',
-                      value: userData.fullName,
-                      onPressed: () {},
-                    ),
-                    ProfileTiles(
-                      title: 'Bio',
-                      value: userData.bio,
-                      onPressed: () async {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return ShowDetailUpdateDialog(
-                              userId: userData.userID,
-                              initialVal: userData.bio,
-                              title: 'Bio',
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
+                loading: () => const CircularProgressIndicator());
           },
         ));
   }
@@ -271,6 +295,20 @@ class _ShowDetailUpdateDialogState extends State<ShowDetailUpdateDialog> {
     super.dispose();
   }
 
+  Future<void> onSubmit({required WidgetRef ref}) async {
+    final String newVal = updateController.text.trim();
+    if (formKey.currentState!.validate()) {
+      if (newVal == widget.initialVal) {
+        //if no changes are made
+        context.pop();
+        return;
+      }
+      await ref
+          .read(firestoreServiceStateNotifierProvider.notifier)
+          .changeBio(context, widget.userId, newVal);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -279,6 +317,13 @@ class _ShowDetailUpdateDialogState extends State<ShowDetailUpdateDialog> {
         backgroundColor: AppColors.darkGreen,
         title: Text('Update ${widget.title}', style: AppTextStyles.heading1),
         content: TextFormField(
+          validator: (value) {
+            if (value == null || value.trim() == '') {
+              return '${widget.title} can\'t be empty';
+            } else {
+              return null;
+            }
+          },
           controller: updateController,
           decoration: InputDecoration(
             hintText: 'Enter new ${widget.title.toLowerCase()}',
@@ -297,12 +342,7 @@ class _ShowDetailUpdateDialogState extends State<ShowDetailUpdateDialog> {
             builder: (context, ref, child) {
               return TextButton(
                 onPressed: () async {
-                  await ref
-                      .read(firestoreServiceStateNotifierProvider.notifier)
-                      .changeBio(context, widget.userId, updateController.text);
-                  if (context.mounted) {
-                    context.pop();
-                  }
+                  onSubmit(ref: ref);
                 },
                 child: Text(
                   'Update',
