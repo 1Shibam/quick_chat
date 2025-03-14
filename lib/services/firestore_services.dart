@@ -144,10 +144,12 @@ class FirestoreServices {
       required BuildContext context}) async {
     try {
       await firestore.collection('chatUsers').doc(userID).update(updates);
+      if (context.mounted) {
+        context.pop();
+      }
     } on FirebaseException catch (error) {
       if (context.mounted) {
         buildSnackBar(context, 'Error: $error');
-        context.pop();
       }
     }
   }
