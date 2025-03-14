@@ -59,7 +59,6 @@ class FirestoreServices {
         updates: {'profile_url': imageUrl},
       );
     }
-    context.pop();
   }
 
   //update user name method
@@ -148,6 +147,7 @@ class FirestoreServices {
     } on FirebaseException catch (error) {
       if (context.mounted) {
         buildSnackBar(context, 'Error: $error');
+        context.pop();
       }
     }
   }
