@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
                                   child: CachedNetworkImage(
                                       imageUrl: userData.profileUrl.isNotEmpty
                                           ? userData.profileUrl
-                                          : 'assets/images/profile-circle-svgrepo-com.svg'),
+                                          : 'https://i.imgur.com/PcvwDlW.png'),
                                 ),
                               ),
                               Positioned(
