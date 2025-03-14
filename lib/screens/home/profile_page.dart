@@ -25,7 +25,7 @@ class ProfilePage extends StatelessWidget {
         ),
         body: Consumer(
           builder: (context, ref, child) {
-            final userAsync = ref.watch(userProvider);
+            final userAsync = ref.watch(otherUserProvider);
 
             return userAsync.when(
                 data: (data) {
