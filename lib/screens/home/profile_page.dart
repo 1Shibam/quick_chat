@@ -82,7 +82,18 @@ class ProfilePage extends StatelessWidget {
                     ProfileTiles(
                       title: 'Bio',
                       value: userData.bio,
-                      onPressed: () {},
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ShowDetailUpdateDialog(
+                              userId: userData.userID,
+                              initialVal: userData.bio,
+                              title: 'Bio',
+                            );
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -225,6 +236,82 @@ class ProfileTiles extends StatelessWidget {
               size: 28.sp,
               color: AppColors.softWhite,
             )),
+      ),
+    );
+  }
+}
+
+class ShowDetailUpdateDialog extends StatefulWidget {
+  const ShowDetailUpdateDialog(
+      {super.key,
+      required this.initialVal,
+      required this.title,
+      required this.userId});
+  final String userId;
+  final String initialVal;
+  final String title;
+
+  @override
+  State<ShowDetailUpdateDialog> createState() => _ShowDetailUpdateDialogState();
+}
+
+class _ShowDetailUpdateDialogState extends State<ShowDetailUpdateDialog> {
+  late TextEditingController updateController;
+  final formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    updateController = TextEditingController(text: widget.initialVal);
+  }
+
+  @override
+  void dispose() {
+    updateController.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      child: AlertDialog(
+        backgroundColor: AppColors.darkGreen,
+        title: Text('Update ${widget.title}', style: AppTextStyles.heading1),
+        content: TextFormField(
+          controller: updateController,
+          decoration: InputDecoration(
+            hintText: 'Enter new ${widget.title.toLowerCase()}',
+            border: const OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context), // Cancel
+            child: Text(
+              'Cancel',
+              style: AppTextStyles.buttonText,
+            ),
+          ),
+          Consumer(
+            builder: (context, ref, child) {
+              return TextButton(
+                onPressed: () async {
+                  await ref
+                      .read(firestoreServiceStateNotifierProvider.notifier)
+                      .changeBio(context, widget.userId, updateController.text);
+                  if (context.mounted) {
+                    context.pop();
+                  }
+                },
+                child: Text(
+                  'Update',
+                  style: AppTextStyles.buttonText,
+                ),
+              );
+            },
+          )
+        ],
       ),
     );
   }
