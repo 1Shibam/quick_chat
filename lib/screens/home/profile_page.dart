@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/model/user_model.dart';
 import 'package:quick_chat/providers/firestore_service_provider.dart';
 import 'package:quick_chat/providers/user_provider.dart';
 
@@ -45,109 +46,7 @@ class ProfilePage extends StatelessWidget {
                         Positioned(
                           bottom: 8.h,
                           right: 2.w,
-                          child: GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.r),
-                                        side: BorderSide(
-                                            color: AppColors.softGrey)),
-                                    title: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            context.pop();
-                                          },
-                                          icon: Icon(
-                                            Icons.clear,
-                                            color: AppColors.softWhite,
-                                            size: 40.sp,
-                                          )),
-                                    ),
-                                    backgroundColor:
-                                        AppColors.greyBlack.withOpacity(0.5),
-                                    content: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                              onPressed: () async {
-                                                await ref
-                                                    .read(
-                                                        firestoreServiceStateNotifierProvider
-                                                            .notifier)
-                                                    .changeProfilePicture(
-                                                        context,
-                                                        userData.userID,
-                                                        ImageSource.camera);
-                                              },
-                                              icon: Icon(
-                                                Icons.camera_alt_rounded,
-                                                size: 40.sp,
-                                                color: AppColors.softGrey,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Camera',
-                                              style: AppTextStyles.heading2,
-                                            )
-                                          ],
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                              onPressed: () async {
-                                                await ref
-                                                    .read(
-                                                        firestoreServiceStateNotifierProvider
-                                                            .notifier)
-                                                    .changeProfilePicture(
-                                                        context,
-                                                        userData.userID,
-                                                        ImageSource.gallery);
-                                              },
-                                              icon: Icon(
-                                                Icons.image,
-                                                size: 40.sp,
-                                                color: AppColors.softGrey,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Gallery',
-                                              style: AppTextStyles.heading2,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Container(
-                              width: 48.w,
-                              height: 48.w,
-                              decoration: BoxDecoration(
-                                  color: AppColors.softGrey,
-                                  borderRadius: BorderRadius.circular(40.r)),
-                              child: const Icon(
-                                Icons.edit,
-                                color: AppColors.darkGreenAccent,
-                              ),
-                            ),
-                          ),
+                          child: ImageSelectionOptionWidget(userData: userData),
                         )
                       ],
                     ),
@@ -155,20 +54,36 @@ class ProfilePage extends StatelessWidget {
                       height: 2.h,
                     ),
                     Text(
-                      'Joined At: ${userData.createdAt}',
+                      'Joined At: ${userData.createdAt.split('T')[0]}',
+                      style: AppTextStyles.bodyText,
+                    ),
+                    Text(
+                      userData.isOnline ? 'Online' : 'Offline',
                       style: AppTextStyles.bodyText,
                     ),
                     SizedBox(
                       height: 16.h,
                     ),
-                    ProfileTiles(title: 'Username', value: userData.username),
-                    ProfileTiles(title: 'Name', value: userData.fullName),
                     ProfileTiles(
-                      title: 'Status',
-                      value: userData.isOnline ? 'Online' : 'Offline',
+                      title: 'Username',
+                      value: userData.username,
+                      onPressed: () {},
                     ),
-                    ProfileTiles(title: 'Bio', value: userData.bio),
-                    ProfileTiles(title: 'Email', value: userData.email),
+                    ProfileTiles(
+                      title: 'Email',
+                      value: userData.email,
+                      onPressed: () {},
+                    ),
+                    ProfileTiles(
+                      title: 'Full Name',
+                      value: userData.fullName,
+                      onPressed: () {},
+                    ),
+                    ProfileTiles(
+                      title: 'Bio',
+                      value: userData.bio,
+                      onPressed: () {},
+                    ),
                   ],
                 ),
               ),
@@ -178,20 +93,138 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+class ImageSelectionOptionWidget extends ConsumerWidget {
+  const ImageSelectionOptionWidget({
+    super.key,
+    required this.userData,
+  });
+
+  final ChatUserModel userData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.r),
+                  side: const BorderSide(color: AppColors.softGrey)),
+              title: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    icon: Icon(
+                      Icons.clear,
+                      color: AppColors.softWhite,
+                      size: 40.sp,
+                    )),
+              ),
+              backgroundColor: AppColors.greyBlack.withOpacity(0.5),
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          await ref
+                              .read(firestoreServiceStateNotifierProvider
+                                  .notifier)
+                              .changeProfilePicture(
+                                  context, userData.userID, ImageSource.camera);
+                        },
+                        icon: Icon(
+                          Icons.camera_alt_rounded,
+                          size: 40.sp,
+                          color: AppColors.softGrey,
+                        ),
+                      ),
+                      Text(
+                        'Camera',
+                        style: AppTextStyles.heading2,
+                      )
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          await ref
+                              .read(firestoreServiceStateNotifierProvider
+                                  .notifier)
+                              .changeProfilePicture(context, userData.userID,
+                                  ImageSource.gallery);
+                        },
+                        icon: Icon(
+                          Icons.image,
+                          size: 40.sp,
+                          color: AppColors.softGrey,
+                        ),
+                      ),
+                      Text(
+                        'Gallery',
+                        style: AppTextStyles.heading2,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: Container(
+        width: 48.w,
+        height: 48.w,
+        decoration: BoxDecoration(
+            color: AppColors.softGrey,
+            borderRadius: BorderRadius.circular(40.r)),
+        child: const Icon(
+          Icons.edit,
+          color: AppColors.darkGreenAccent,
+        ),
+      ),
+    );
+  }
+}
+
 class ProfileTiles extends StatelessWidget {
-  const ProfileTiles({super.key, required this.title, required this.value});
+  const ProfileTiles(
+      {super.key,
+      required this.title,
+      required this.value,
+      required this.onPressed});
   final String title;
   final String value;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.h),
-      child: TextFormField(
-        autovalidateMode: AutovalidateMode.onUnfocus,
-        initialValue: value,
-        style: AppTextStyles.bodyText,
-        decoration: InputDecoration(labelText: title),
+      child: ListTile(
+        tileColor: AppColors.darkGreen,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        title: Text(title, style: AppTextStyles.heading2),
+        subtitle: Text(value == '' ? 'not Mentinoned' : value,
+            style: AppTextStyles.bodyText),
+        trailing: IconButton(
+            onPressed: onPressed,
+            icon: Icon(
+              Icons.edit,
+              size: 28.sp,
+              color: AppColors.softWhite,
+            )),
       ),
     );
   }
