@@ -84,27 +84,51 @@ class ProfilePage extends StatelessWidget {
                           ProfileTiles(
                             title: 'Username',
                             value: userData.username,
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return ShowDetailUpdateDialog(
+                                    userId: userData.userID,
+                                    initialVal: userData.username,
+                                    title: 'User Name',
+                                    updateField: UpdateFields.username,
+                                  );
+                                },
+                              );
+                            },
                           ),
                           ProfileTiles(
                             title: 'Email',
                             isEmail: true,
                             value: userData.email,
-                            onPressed: () {},
                           ),
                           ProfileTiles(
                             title: 'Full Name',
                             value: userData.fullName,
-                            onPressed: () {},
-                          ),
-                          ProfileTiles(
-                            title: 'Bio',
-                            value: userData.bio,
-                            onPressed: () async {
+                            onPressed: () {
                               showDialog(
                                 context: context,
                                 builder: (context) {
                                   return ShowDetailUpdateDialog(
+                                    userId: userData.userID,
+                                    initialVal: userData.fullName,
+                                    title: ' Name',
+                                    updateField: UpdateFields.fullName,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          ProfileTiles(
+                            title: 'Bio',
+                            value: userData.bio,
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return ShowDetailUpdateDialog(
+                                    isBio: true,
                                     userId: userData.userID,
                                     initialVal: userData.bio,
                                     title: 'Bio',
@@ -240,11 +264,11 @@ class ProfileTiles extends StatelessWidget {
       {super.key,
       required this.title,
       required this.value,
-      required this.onPressed,
+      this.onPressed,
       this.isEmail = false});
   final String title;
   final String value;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final bool isEmail;
 
   @override
@@ -257,7 +281,9 @@ class ProfileTiles extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
         title: Text(title, style: AppTextStyles.heading2),
         subtitle: Text(value == '' ? 'not Mentinoned' : value,
-            style: AppTextStyles.bodyText),
+            style: value == ''
+                ? AppTextStyles.bodyText.copyWith(color: AppColors.grey)
+                : AppTextStyles.bodyText),
         trailing: isEmail
             ? null
             : IconButton(
@@ -280,11 +306,13 @@ class ShowDetailUpdateDialog extends StatefulWidget {
       required this.initialVal,
       required this.title,
       required this.userId,
-      required this.updateField});
+      required this.updateField,
+      this.isBio = false});
   final String userId;
   final String initialVal;
   final String title;
   final UpdateFields updateField;
+  final bool isBio;
 
   @override
   State<ShowDetailUpdateDialog> createState() => _ShowDetailUpdateDialogState();
@@ -344,8 +372,11 @@ class _ShowDetailUpdateDialogState extends State<ShowDetailUpdateDialog> {
       key: formKey,
       child: AlertDialog(
         backgroundColor: AppColors.darkGreen,
-        title: Text('Update ${widget.title}', style: AppTextStyles.heading1),
+        title: Text('Update ${widget.title}', style: AppTextStyles.heading2),
         content: TextFormField(
+          style: AppTextStyles.bodyText,
+          maxLength: widget.isBio ? 50 : 16,
+          maxLines: widget.isBio ? 3 : 1,
           validator: (value) {
             if (value == null || value.trim() == '') {
               return '${widget.title} can\'t be empty';
