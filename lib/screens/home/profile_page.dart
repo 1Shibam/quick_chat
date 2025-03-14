@@ -25,19 +25,11 @@ class ProfilePage extends StatelessWidget {
         ),
         body: Consumer(
           builder: (context, ref, child) {
-            final userAsync = ref.watch(otherUserProvider);
+            final userAsync = ref.watch(currentUserProvider);
 
             return userAsync.when(
                 data: (data) {
-                  if (data.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'No user Available',
-                        style: AppTextStyles.heading2,
-                      ),
-                    );
-                  }
-                  final userData = data.first;
+                  final userData = data;
                   return Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.w),
