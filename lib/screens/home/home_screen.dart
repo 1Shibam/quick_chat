@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: Scrollbar(child: Consumer(
                   builder: (context, ref, child) {
-                    final user = ref.watch(userProvider);
+                    final user = ref.watch(otherUserProvider);
                     return user.when(data: (user) {
                       if (user.isEmpty) {
                         return const Center(
