@@ -87,6 +87,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           ProfileTiles(
                             title: 'Email',
+                            isEmail: true,
                             value: userData.email,
                             onPressed: () {},
                           ),
@@ -237,10 +238,12 @@ class ProfileTiles extends StatelessWidget {
       {super.key,
       required this.title,
       required this.value,
-      required this.onPressed});
+      required this.onPressed,
+      this.isEmail = false});
   final String title;
   final String value;
   final VoidCallback onPressed;
+  final bool isEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -253,13 +256,15 @@ class ProfileTiles extends StatelessWidget {
         title: Text(title, style: AppTextStyles.heading2),
         subtitle: Text(value == '' ? 'not Mentinoned' : value,
             style: AppTextStyles.bodyText),
-        trailing: IconButton(
-            onPressed: onPressed,
-            icon: Icon(
-              Icons.edit,
-              size: 28.sp,
-              color: AppColors.softWhite,
-            )),
+        trailing: isEmail
+            ? null
+            : IconButton(
+                onPressed: onPressed,
+                icon: Icon(
+                  Icons.edit,
+                  size: 28.sp,
+                  color: AppColors.softWhite,
+                )),
       ),
     );
   }
@@ -303,9 +308,6 @@ class _ShowDetailUpdateDialogState extends State<ShowDetailUpdateDialog> {
         context.pop();
         return;
       }
-      await ref
-          .read(firestoreServiceStateNotifierProvider.notifier)
-          .changeBio(context, widget.userId, newVal);
     }
   }
 
