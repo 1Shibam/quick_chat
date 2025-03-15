@@ -151,6 +151,11 @@ class FirestoreServices {
       if (context.mounted) {
         buildSnackBar(context, 'Error: $error');
       }
+    } catch (e) {
+      debugPrint('something must be wrong!!');
+      if (context.mounted) {
+        context.pop();
+      }
     }
   }
 }

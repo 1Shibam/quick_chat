@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -193,6 +195,7 @@ class ImageSelectionOptionWidget extends ConsumerWidget {
                                   .notifier)
                               .changeProfilePicture(
                                   context, userData.userID, ImageSource.camera);
+                          Navigator.pop(context);
                         },
                         icon: Icon(
                           Icons.camera_alt_rounded,
@@ -217,6 +220,7 @@ class ImageSelectionOptionWidget extends ConsumerWidget {
                                   .notifier)
                               .changeProfilePicture(context, userData.userID,
                                   ImageSource.gallery);
+                          Navigator.pop(context);
                         },
                         icon: Icon(
                           Icons.image,

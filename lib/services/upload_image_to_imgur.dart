@@ -42,7 +42,7 @@ Future<String?> uploadImageToImgur(BuildContext context, File imageFile) async {
     }
   } catch (e) {
     if (context.mounted) {
-      buildSnackBar(context, 'Something went wrong',
+      buildSnackBar(context, 'Something went wrong to imgur',
           bgColor: AppColors.errorRedAccent);
     }
     rethrow;
