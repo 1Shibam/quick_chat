@@ -2,18 +2,24 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 
-class HomeScreenSearchBar extends StatelessWidget {
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
+class HomeScreenSearchBar extends ConsumerWidget {
   const HomeScreenSearchBar({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: SearchBar(
+        onChanged: (value) {
+          ref.read(searchQueryProvider.notifier).state = value;
+        },
         hintText: 'Search Chat',
         hintStyle: WidgetStatePropertyAll(AppTextStyles.heading3),
         leading: Row(
