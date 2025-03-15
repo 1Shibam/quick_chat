@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/model/user_model.dart';
+import 'package:quick_chat/screens/chat/chat_profile.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key, required this.userInfo});
@@ -53,7 +54,13 @@ class ChatScreen extends StatelessWidget {
                   Expanded(
                       flex: 4,
                       child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChatProfile(chatUserDetail: userInfo)));
+                          },
                           child: SizedBox(
                             height: double.infinity,
                             child: Align(
@@ -67,7 +74,7 @@ class ChatScreen extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Icon(
                           Platform.isIOS ? CupertinoIcons.phone : Icons.phone,
