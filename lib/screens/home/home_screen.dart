@@ -29,16 +29,30 @@ class HomeScreen extends StatelessWidget {
                 child: Scrollbar(child: Consumer(
                   builder: (context, ref, child) {
                     final user = ref.watch(otherUserProvider);
-                    return user.when(data: (user) {
-                      if (user.isEmpty) {
+                    final searchQuery = ref.watch(searchQueryProvider);
+                    return user.when(data: (userData) {
+                      if (userData.isEmpty) {
                         return const Center(
                           child: Text('no users available'),
                         );
                       }
+                      final filteredSearch = userData.where((user) {
+                        return user.username
+                            .toLowerCase()
+                            .contains(searchQuery.toLowerCase());
+                      }).toList();
+                      if (filteredSearch.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No matching user found',
+                            style: AppTextStyles.heading2,
+                          ),
+                        );
+                      }
                       return ListView.builder(
-                        itemCount: user.length,
+                        itemCount: filteredSearch.length,
                         itemBuilder: (context, index) {
-                          final singleUser = user[index];
+                          final singleUser = filteredSearch[index];
 
                           return ListTile(
                             leading: CircleAvatar(
