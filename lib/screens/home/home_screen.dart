@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/providers/user_provider.dart';
-import 'package:quick_chat/screens/home/widget/drawer_widget.dart';
-import 'package:quick_chat/screens/home/widget/floating_action_button.dart';
-import 'package:quick_chat/screens/home/widget/home_screen_appbar.dart';
-import 'package:quick_chat/screens/home/widget/home_screen_searchbar.dart';
+import 'package:quick_chat/screens/home/widget/home_screen_widgets/drawer_widget.dart';
+import 'package:quick_chat/screens/home/widget/home_screen_widgets/floating_action_button.dart';
+import 'package:quick_chat/screens/home/widget/home_screen_widgets/home_screen_appbar.dart';
+import 'package:quick_chat/screens/home/widget/home_screen_widgets/home_screen_searchbar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
