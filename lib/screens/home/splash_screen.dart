@@ -18,8 +18,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
-    
-    if (!mounted) return; // Ensure widget is still in the tree before navigating
+
+    if (!mounted) {
+      return; // Ensure widget is still in the tree before navigating
+    }
 
     final user = FirebaseAuth.instance.currentUser;
     if (user != null && user.emailVerified) {

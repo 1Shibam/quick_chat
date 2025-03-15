@@ -29,11 +29,10 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
       await sendLink(email);
 
       // Close the loading dialog
-      
-        // Close loading dialog
-        Navigator.pop(context); // Close ResetPasswordDialog
-        Navigator.pop(context); // Close ResetPasswordDialog
-      
+
+      // Close loading dialog
+      Navigator.pop(context); // Close ResetPasswordDialog
+      Navigator.pop(context); // Close ResetPasswordDialog
     }
   }
 

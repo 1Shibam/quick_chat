@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/model/user_model.dart';
-import 'package:quick_chat/widgets/chat_wdgets/profile_tiles.dart';
+import 'package:quick_chat/screens/home/widget/profile_page_widgets/profile_tiles.dart';
 import 'package:quick_chat/widgets/chat_wdgets/full_screen_image.dart';
 
 class ChatProfile extends StatelessWidget {
