@@ -64,6 +64,8 @@ dependencies:
   image_picker: ^1.1.2
   flutter_dotenv: ^5.2.1
   dio: ^5.8.0+1
+  cloudinary_api: ^1.1.0
+  cloudinary_url_gen: ^1.7.0
   
 
 dev_dependencies:
