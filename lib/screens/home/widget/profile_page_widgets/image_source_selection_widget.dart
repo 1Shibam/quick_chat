@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:quick_chat/model/user_model.dart';
-import 'package:quick_chat/providers/firestore_service_provider.dart';
+
+import 'package:quick_chat/screens/home/widget/profile_page_widgets/image_source_selection.dart';
 
 import '../../../../Exports/common_exports.dart';
 
@@ -17,88 +18,7 @@ class ImageSelectionOptionWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r),
-                  side: const BorderSide(color: AppColors.softGrey)),
-              title: Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    icon: Icon(
-                      Icons.clear,
-                      color: AppColors.softWhite,
-                      size: 40.sp,
-                    )),
-              ),
-              backgroundColor: AppColors.greyBlack.withOpacity(0.5),
-              content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          await ref
-                              .read(firestoreServiceStateNotifierProvider
-                                  .notifier)
-                              .changeProfilePicture(
-                                  context, userData.userID, ImageSource.camera);
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                          }
-                        },
-                        icon: Icon(
-                          Icons.camera_alt_rounded,
-                          size: 40.sp,
-                          color: AppColors.softGrey,
-                        ),
-                      ),
-                      Text(
-                        'Camera',
-                        style: AppTextStyles.heading2,
-                      )
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          await ref
-                              .read(firestoreServiceStateNotifierProvider
-                                  .notifier)
-                              .changeProfilePicture(context, userData.userID,
-                                  ImageSource.gallery);
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                          }
-                        },
-                        icon: Icon(
-                          Icons.image,
-                          size: 40.sp,
-                          color: AppColors.softGrey,
-                        ),
-                      ),
-                      Text(
-                        'Gallery',
-                        style: AppTextStyles.heading2,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+        _showBottomShett(context: context, userData: userData);
       },
       child: Container(
         width: 48.w,
@@ -113,4 +33,23 @@ class ImageSelectionOptionWidget extends ConsumerWidget {
       ),
     );
   }
+}
+
+//show bottom sheet on tap of the pencil icon
+
+void _showBottomShett(
+    {required BuildContext context, required ChatUserModel userData}) {
+  showModalBottomSheet(
+    backgroundColor: AppColors.darkGreen,
+    elevation: 20,
+    isDismissible: true,
+    enableDrag: true,
+    showDragHandle: true,
+    context: context,
+    builder: (context) {
+      return ImageSourceOptions(
+        userData: userData,
+      );
+    },
+  );
 }
