@@ -37,7 +37,7 @@ class AllProfileTiles extends StatelessWidget {
           ),
           ProfileTile(
             title: 'Email',
-            isEmail: true,
+            disableEditing: true,
             value: obscureEmail(userData.email),
           ),
           ProfileTile(
