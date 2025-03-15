@@ -16,16 +16,11 @@ class ProfileImageSection extends StatelessWidget {
     const String emptyProfile = 'https://i.imgur.com/PcvwDlW.png';
     return Stack(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(100.r),
-          child: CircleAvatar(
-            backgroundColor: AppColors.darkGreen,
-            radius: 80.r,
-            child: CachedNetworkImage(
-                imageUrl: userData.profileUrl != ''
-                    ? userData.profileUrl
-                    : emptyProfile),
-          ),
+        CircleAvatar(
+          backgroundColor: AppColors.darkGreen,
+          radius: 80.r,
+          backgroundImage: CachedNetworkImageProvider(
+              userData.profileUrl != '' ? userData.profileUrl : emptyProfile),
         ),
         Positioned(
           bottom: 8.h,
