@@ -61,9 +61,9 @@ class FirebaseAuthServices {
       if (user != null && user.emailVerified) {
         // Call createUserProfile() only if email is verified
         await FirestoreServices().createUserProfile();
-      }
-      if (context.mounted) {
-        buildSnackBar(context, 'Welcome Back!!');
+        if (context.mounted) {
+          buildSnackBar(context, 'Welcome!!');
+        }
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Login failed';

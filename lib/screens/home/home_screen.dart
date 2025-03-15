@@ -45,7 +45,9 @@ class HomeScreen extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.r),
                                 child: CachedNetworkImage(
-                                  imageUrl: singleUser.profileUrl,
+                                  imageUrl: singleUser.profileUrl == ''
+                                      ? 'https://i.imgur.com/PcvwDlW.png'
+                                      : singleUser.profileUrl,
                                   placeholder: (context, url) =>
                                       const CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>

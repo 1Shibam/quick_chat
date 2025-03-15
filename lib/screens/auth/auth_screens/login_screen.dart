@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                         isVisible = !isVisible;
                       }),
                       icon: Icon(
-                          isVisible ? Icons.visibility_off : Icons.visibility),
+                          isVisible ? Icons.visibility : Icons.visibility_off),
                       color:
                           isVisible ? AppColors.darkGreen : AppColors.softWhite,
                     ),
@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
           context, emailController.text.trim(), passController.text.trim());
       //check if email is verified -
       final user = FirebaseAuth.instance.currentUser;
-      Navigator.pop(context);
+
       if (user == null) {
         return;
       }

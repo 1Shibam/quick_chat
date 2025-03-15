@@ -24,11 +24,11 @@ class FirestoreServices {
 
     final userInfo = ChatUserModel(
       userID: user.uid,
-      username: user.displayName ?? 'Unnamed User', // Handle null
+      username: user.displayName ?? '', // Handle null
       email: user.email ?? '',
       bio: '',
       dob: '',
-      fullName: user.displayName ?? 'Unnamed User',
+      fullName: user.displayName ?? '',
       isOnline: false,
       lastActive: '',
       gender: 'not specified',

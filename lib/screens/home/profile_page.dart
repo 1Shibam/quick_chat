@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
                                   backgroundColor: AppColors.darkGreen,
                                   radius: 80.r,
                                   child: CachedNetworkImage(
-                                      imageUrl: userData.profileUrl.isNotEmpty
+                                      imageUrl: userData.profileUrl != ''
                                           ? userData.profileUrl
                                           : 'https://i.imgur.com/PcvwDlW.png'),
                                 ),

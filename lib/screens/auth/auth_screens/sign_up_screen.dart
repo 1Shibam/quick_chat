@@ -119,7 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             }),
                         icon: Icon(
                           //? for true value of isVisible the icon is in-active and for false its active
-                          isVisible ? Icons.visibility_off : Icons.visibility,
+                          isVisible ? Icons.visibility : Icons.visibility_off,
                           color: isVisible
                               ? AppColors.darkGreen
                               : AppColors.softWhite,
