@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/model/user_model.dart';
 import 'package:quick_chat/screens/chat/chat_screen.dart';
+import 'package:quick_chat/widgets/chat_wdgets/full_screen_image.dart';
 
 class UsersList extends StatelessWidget {
   const UsersList({
@@ -13,6 +14,7 @@ class UsersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String emptyProfile = 'https://i.imgur.com/PcvwDlW.png';
     return ListView.builder(
       itemCount: filteredSearch.length,
       itemBuilder: (context, index) {
@@ -26,16 +28,19 @@ class UsersList extends StatelessWidget {
                   builder: (context) => ChatScreen(userInfo: singleUser),
                 ));
           },
-          leading: CircleAvatar(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10.r),
-              child: CachedNetworkImage(
-                imageUrl: singleUser.profileUrl == ''
+          leading: GestureDetector(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => FullScreenImage(
+                        imageUrl: singleUser.profileUrl == ''
+                            ? emptyProfile
+                            : singleUser.profileUrl))),
+            child: CircleAvatar(
+              backgroundImage: CachedNetworkImageProvider(
+                singleUser.profileUrl == ''
                     ? 'https://i.imgur.com/PcvwDlW.png'
                     : singleUser.profileUrl,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.person),
               ),
             ),
           ),
