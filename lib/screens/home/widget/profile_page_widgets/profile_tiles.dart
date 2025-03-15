@@ -6,11 +6,11 @@ class ProfileTile extends StatelessWidget {
       required this.title,
       required this.value,
       this.onPressed,
-      this.isEmail = false});
+      this.disableEditing = false});
   final String title;
   final String value;
   final VoidCallback? onPressed;
-  final bool isEmail;
+  final bool disableEditing;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ProfileTile extends StatelessWidget {
             style: value == ''
                 ? AppTextStyles.bodyText.copyWith(color: AppColors.grey)
                 : AppTextStyles.bodyText),
-        trailing: isEmail
+        trailing: disableEditing
             ? null
             : IconButton(
                 onPressed: onPressed,

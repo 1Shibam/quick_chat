@@ -13,6 +13,7 @@ class ProfileImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String emptyProfile = 'https://i.imgur.com/PcvwDlW.png';
     return Stack(
       children: [
         ClipRRect(
@@ -23,7 +24,7 @@ class ProfileImageSection extends StatelessWidget {
             child: CachedNetworkImage(
                 imageUrl: userData.profileUrl != ''
                     ? userData.profileUrl
-                    : 'https://i.imgur.com/PcvwDlW.png'),
+                    : emptyProfile),
           ),
         ),
         Positioned(
