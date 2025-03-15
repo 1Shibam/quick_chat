@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/model/user_model.dart';
+import 'package:quick_chat/screens/chat/chat_screen.dart';
 
 class UsersList extends StatelessWidget {
   const UsersList({
@@ -18,6 +19,13 @@ class UsersList extends StatelessWidget {
         final singleUser = filteredSearch[index];
 
         return ListTile(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatScreen(userInfo: singleUser),
+                ));
+          },
           leading: CircleAvatar(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.r),
