@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/model/user_model.dart';
 import 'package:quick_chat/screens/chat/chat_profile.dart';
+import 'package:quick_chat/widgets/chat_wdgets/full_screen_image.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key, required this.userInfo});
@@ -29,18 +30,30 @@ class ChatScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
-                              Platform.isIOS
-                                  ? CupertinoIcons.back
-                                  : Icons.arrow_back,
-                              color: AppColors.softWhite,
-                              size: 32.sp,
+                            GestureDetector(
+                              onTap: () => context.pop(),
+                              child: Icon(
+                                Platform.isIOS
+                                    ? CupertinoIcons.back
+                                    : Icons.arrow_back,
+                                color: AppColors.softWhite,
+                                size: 32.sp,
+                              ),
                             ),
-                            CircleAvatar(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.r),
-                                child: CachedNetworkImage(
-                                    imageUrl: userInfo.profileUrl == ''
+                            GestureDetector(
+                              onTap: () =>
+                                  Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return FullScreenImage(
+                                      imageUrl: userInfo.profileUrl == ''
+                                          ? emptyProfile
+                                          : userInfo.profileUrl);
+                                },
+                              )),
+                              child: CircleAvatar(
+                                radius: 21.r,
+                                backgroundImage: CachedNetworkImageProvider(
+                                    userInfo.profileUrl == ''
                                         ? emptyProfile
                                         : userInfo.profileUrl),
                               ),
