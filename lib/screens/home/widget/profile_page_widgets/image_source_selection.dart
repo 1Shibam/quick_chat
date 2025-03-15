@@ -43,9 +43,6 @@ class ImageSourceOptions extends StatelessWidget {
                                     .notifier)
                                 .changeProfilePicture(context, userData.userID,
                                     ImageSource.camera);
-                            if (context.mounted) {
-                              Navigator.pop(context);
-                            }
                           },
                           icon: Icon(
                             Icons.camera_alt_rounded,
@@ -70,9 +67,6 @@ class ImageSourceOptions extends StatelessWidget {
                                     .notifier)
                                 .changeProfilePicture(context, userData.userID,
                                     ImageSource.gallery);
-                            if (context.mounted) {
-                              Navigator.pop(context);
-                            }
                           },
                           icon: Icon(
                             Icons.image,
