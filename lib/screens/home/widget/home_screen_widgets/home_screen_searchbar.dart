@@ -17,6 +17,7 @@ class HomeScreenSearchBar extends ConsumerWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: SearchBar(
+        textStyle: WidgetStatePropertyAll(AppTextStyles.bodyText),
         onChanged: (value) {
           ref.read(searchQueryProvider.notifier).state = value;
         },
