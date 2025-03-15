@@ -95,7 +95,7 @@ class ProfilePage extends StatelessWidget {
                           ProfileTiles(
                             title: 'Email',
                             isEmail: true,
-                            value: userData.email,
+                            value: obscureEmail(userData.email),
                           ),
                           ProfileTiles(
                             title: 'Full Name',
@@ -411,4 +411,15 @@ class _ShowDetailUpdateDialogState extends State<ShowDetailUpdateDialog> {
       ),
     );
   }
+}
+
+//method for obscuring email -
+
+String obscureEmail(String email) {
+  List<String> parts = email.split('@');
+  if (parts.length != 2) return email;
+  String name = parts[0];
+  String domain = parts[1];
+  String obscuredName = name.substring(0, 2) + '*' * (name.length - 1);
+  return "$obscuredName@$domain";
 }

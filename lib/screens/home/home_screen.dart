@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                           return ListTile(
                             leading: CircleAvatar(
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100.r),
+                                borderRadius: BorderRadius.circular(10.r),
                                 child: CachedNetworkImage(
                                   imageUrl: singleUser.profileUrl,
                                   placeholder: (context, url) =>
@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             title: Text(
                               singleUser.username,
-                              style: AppTextStyles.heading2,
+                              style: AppTextStyles.heading3,
                             ),
                           );
                         },
