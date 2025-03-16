@@ -14,98 +14,177 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String emptyProfile = 'https://i.imgur.com/PcvwDlW.png';
+
     return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: PreferredSize(
             preferredSize: Size(double.infinity, 64.h),
             child: Container(
               height: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 6.w),
               decoration: const BoxDecoration(color: AppColors.darkGreen),
               child: Row(
                 children: [
-                  Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () => context.pop(),
-                              child: Icon(
-                                Platform.isIOS
-                                    ? CupertinoIcons.back
-                                    : Icons.arrow_back,
-                                color: AppColors.softWhite,
-                                size: 32.sp,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () =>
-                                  Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return FullScreenImage(
-                                      imageUrl: userInfo.profileUrl == ''
-                                          ? emptyProfile
-                                          : userInfo.profileUrl);
-                                },
-                              )),
-                              child: CircleAvatar(
-                                radius: 21.r,
-                                backgroundImage: CachedNetworkImageProvider(
-                                    userInfo.profileUrl == ''
-                                        ? emptyProfile
-                                        : userInfo.profileUrl),
-                              ),
-                            )
-                          ],
-                        ),
-                      )),
-                  SizedBox(
-                    width: 8.w,
-                  ),
-                  Expanded(
-                      flex: 4,
-                      child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ChatProfile(chatUserDetail: userInfo)));
-                          },
-                          child: SizedBox(
-                            height: double.infinity,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                userInfo.username,
-                                style: AppTextStyles.heading3,
-                              ),
-                            ),
-                          ))),
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(
-                          Platform.isIOS ? CupertinoIcons.phone : Icons.phone,
-                          color: AppColors.softWhite,
-                          size: 32.sp,
-                        ),
-                        Icon(
-                          Platform.isIOS
-                              ? Icons.more_vert
-                              : CupertinoIcons.ellipsis_vertical,
-                          size: 32.sp,
-                        )
-                      ],
+                  // Back Button
+                  IconButton(
+                    onPressed: () => context.pop(),
+                    icon: Icon(
+                      Platform.isIOS ? CupertinoIcons.back : Icons.arrow_back,
+                      color: AppColors.softWhite,
+                      size: 28.sp,
                     ),
-                  )
+                  ),
+                  // Profile Image
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FullScreenImage(
+                            imageUrl: userInfo.profileUrl.isEmpty
+                                ? emptyProfile
+                                : userInfo.profileUrl,
+                          ),
+                        ),
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 21.r,
+                      backgroundImage: CachedNetworkImageProvider(
+                        userInfo.profileUrl.isEmpty
+                            ? emptyProfile
+                            : userInfo.profileUrl,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  // Username
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ChatProfile(chatUserDetail: userInfo),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        userInfo.username,
+                        style: AppTextStyles.heading3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                  // Action Buttons (Call & More)
+                  Row(
+                    children: [
+                      Icon(
+                        Platform.isIOS ? CupertinoIcons.phone : Icons.phone,
+                        color: AppColors.softWhite,
+                        size: 28.sp,
+                      ),
+                      SizedBox(width: 12.w),
+                      Icon(
+                        Platform.isIOS
+                            ? CupertinoIcons.ellipsis_vertical
+                            : Icons.more_vert,
+                        color: AppColors.softWhite,
+                        size: 28.sp,
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            )),
+            ),
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  color: AppColors.greyBlack,
+                  child: Center(
+                    child: Text(
+                      "Chat messages will appear here",
+                      style: AppTextStyles.bodyText
+                          .copyWith(color: Colors.white60),
+                    ),
+                  ),
+                ),
+              ),
+              _buildMessageInput(),
+              SizedBox(
+                height: 20.h,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMessageInput() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      color: AppColors.greyBlack,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              style: AppTextStyles.bodyText,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  Icons.emoji_emotions,
+                  size: 28.sp,
+                  color: AppColors.softWhite,
+                ),
+                suffixIcon: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.attach_file,
+                        size: 28.sp,
+                        color: AppColors.softWhite,
+                      ),
+                      SizedBox(
+                        width: 12.w,
+                      ),
+                      Icon(
+                        Icons.camera_alt,
+                        size: 28.sp,
+                        color: AppColors.softWhite,
+                      )
+                    ],
+                  ),
+                ),
+                hintText: "Type a message...",
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              ),
+            ),
+          ),
+          SizedBox(width: 8.w),
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.darkGreen, // Background color
+              shape: BoxShape.circle, // Makes it circular
+            ),
+            child: IconButton(
+              highlightColor: AppColors.darkGreenAccent,
+              onPressed: () {},
+              icon: Icon(
+                Icons.mic,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
