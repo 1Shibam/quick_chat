@@ -47,13 +47,11 @@ class FirestoreServices {
 
   Future<void> updateProfilePicture(
       String userId, ImageSource source, BuildContext context) async {
-    print('i am at original method');
     File? image = await pickImage(source, context);
     if (image == null) return;
     if (!context.mounted) return;
 
     String? imageUrl = await uploadImageToImgur(context, image);
-    print('image uploaded to imgur');
     if (imageUrl != null && context.mounted) {
       await updateUserData(
         userID: userId,
@@ -145,7 +143,6 @@ class FirestoreServices {
       required Map<String, dynamic> updates,
       required BuildContext context}) async {
     try {
-      print('tried to update data');
       await firestore.collection('chatUsers').doc(userID).update(updates);
       if (context.mounted) {
         context.pop();
