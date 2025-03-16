@@ -130,10 +130,10 @@ class ChatScreen extends StatelessWidget {
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             final singleMessage = messages[index];
-                            return ListTile(
+                            return userInfo.userID == singleMessage['senderID'] ? ListTile(
                               title: Text(
                                   singleMessage['message'] ?? 'lmao loner'),
-                            );
+                            ) : const Center(child: Text('Say hi !✌✌'),);
                           },
                         ));
                       },
