@@ -118,6 +118,9 @@ class ChatScreen extends StatelessWidget {
               //     ),
               //   ),
               // ),
+              SizedBox(
+                height: 40.h,
+              ),
               Consumer(
                 builder: (context, ref, child) {
                   final messageStream = ref.watch(messageProvider);
@@ -132,10 +135,11 @@ class ChatScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final singleMessage = messages[index];
                             return userInfo.userID == singleMessage['senderID']
-                                ? ListTile(
-                                    title: Text(singleMessage['message'] ??
-                                        'lmao loner'),
-                                  )
+                                ? SenderMessageCard(
+                                    message: singleMessage['message'],
+                                    isImage: false,
+                                    isVideo: false,
+                                    isText: true)
                                 : const Center(
                                     child: Text('Say hi !✌✌'),
                                   );
@@ -289,7 +293,12 @@ class ChatInputFieldState extends State<ChatInputField> {
 }
 
 class SenderMessageCard extends StatelessWidget {
-  const SenderMessageCard({super.key, required this.message, required this.isImage, required this.isVideo, required this.isText});
+  const SenderMessageCard(
+      {super.key,
+      required this.message,
+      required this.isImage,
+      required this.isVideo,
+      required this.isText});
   final String message;
   final bool isImage;
   final bool isVideo;
@@ -300,11 +309,16 @@ class SenderMessageCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
       child: Container(
+        padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
+            color: AppColors.darkGreenAccent,
             borderRadius: BorderRadius.circular(20.r)
                 .copyWith(topLeft: const Radius.circular(0))),
         child: isText
-            ? Text(message)
+            ? Text(
+                message,
+                style: AppTextStyles.buttonText,
+              )
             : isImage
                 ? PhotoView(imageProvider: null)
                 : isVideo
