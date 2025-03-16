@@ -12,6 +12,9 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: AppColors.darkGreen,
+      statusBarColor: AppColors.darkGreenAccent));
   await dotenv.load(fileName: '.env');
 
   await Firebase.initializeApp(
