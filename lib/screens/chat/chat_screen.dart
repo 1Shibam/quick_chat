@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/model/user_model.dart';
 import 'package:quick_chat/providers/messages_provider.dart';
@@ -130,10 +131,14 @@ class ChatScreen extends StatelessWidget {
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             final singleMessage = messages[index];
-                            return userInfo.userID == singleMessage['senderID'] ? ListTile(
-                              title: Text(
-                                  singleMessage['message'] ?? 'lmao loner'),
-                            ) : const Center(child: Text('Say hi !✌✌'),);
+                            return userInfo.userID == singleMessage['senderID']
+                                ? ListTile(
+                                    title: Text(singleMessage['message'] ??
+                                        'lmao loner'),
+                                  )
+                                : const Center(
+                                    child: Text('Say hi !✌✌'),
+                                  );
                           },
                         ));
                       },
@@ -278,6 +283,33 @@ class ChatInputFieldState extends State<ChatInputField> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SenderMessageCard extends StatelessWidget {
+  const SenderMessageCard({super.key, required this.message, required this.isImage, required this.isVideo, required this.isText});
+  final String message;
+  final bool isImage;
+  final bool isVideo;
+  final bool isText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.r)
+                .copyWith(topLeft: const Radius.circular(0))),
+        child: isText
+            ? Text(message)
+            : isImage
+                ? PhotoView(imageProvider: null)
+                : isVideo
+                    ? const SizedBox()
+                    : const SizedBox(),
       ),
     );
   }
