@@ -1,4 +1,4 @@
-# Quick Chat(not completed yet)
+# Quick Chat
 
 Quick Chat is a **Flutter-based real-time messaging app** with secure authentication, built using **Firebase** and **Firestore**. It offers seamless chat functionality, user profile updates, and an intuitive UI for an enhanced messaging experience.
 
@@ -29,6 +29,9 @@ Quick Chat is a **Flutter-based real-time messaging app** with secure authentica
 <img src="https://github.com/user-attachments/assets/04387239-d6ab-47ff-8555-c33551b0f6ba" alt="chat App - Home Screen" height="300" />
 <img src="https://github.com/user-attachments/assets/2031d47e-7e6d-4fe5-b0b4-1d2f0b09a4b0" alt="chat App - Home Screen" height="300" />
 <img src="https://github.com/user-attachments/assets/b8974806-9671-41a4-9b0e-d4d4aa157158" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/1c9d20b2-f59d-4183-a09c-e92244bc9e7c" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/a46ede29-f173-4504-8721-827f053564b5" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/1701ed09-c982-4285-8896-c40870fc8db2" alt="chat App - Home Screen" height="300" />
 
 
 ## 🔧 Setup & Installation
