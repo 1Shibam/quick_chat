@@ -25,7 +25,6 @@ class FirestoreServiceNotifier extends StateNotifier<FirestoreServices> {
   Future<bool> changeProfilePicture(
       BuildContext context, String userID, ImageSource imageSource) async {
     try {
-      print(' this is being called !!');
       await state.updateProfilePicture(userID, imageSource, context);
       if (context.mounted) {
         buildSnackBar(context, 'Update successfull');
