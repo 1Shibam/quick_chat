@@ -116,7 +116,7 @@ class ChatScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              _buildMessageInput(),
+              const BuildMessageInput(),
               SizedBox(
                 height: 20.h,
               )
@@ -126,8 +126,27 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildMessageInput() {
+class BuildMessageInput extends StatefulWidget {
+  const BuildMessageInput({super.key});
+
+  @override
+  State<BuildMessageInput> createState() => _BuildMessageInputState();
+}
+
+class _BuildMessageInputState extends State<BuildMessageInput> {
+  final TextEditingController messageController = TextEditingController();
+  bool isEmpty = true;
+
+  @override
+  void dispose() {
+    messageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       color: AppColors.greyBlack,
@@ -135,8 +154,21 @@ class ChatScreen extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  setState(() {
+                    isEmpty = true;
+                  });
+                } else {
+                  setState(() {
+                    isEmpty = false;
+                  });
+                }
+              },
               style: AppTextStyles.bodyText,
               decoration: InputDecoration(
+                fillColor: AppColors.darkGreen,
+                filled: true,
                 prefixIcon: Icon(
                   Icons.emoji_emotions,
                   size: 28.sp,
@@ -179,7 +211,7 @@ class ChatScreen extends StatelessWidget {
               highlightColor: AppColors.darkGreenAccent,
               onPressed: () {},
               icon: Icon(
-                Icons.mic,
+                isEmpty ? Icons.mic : Icons.send,
                 color: Colors.white,
               ),
             ),
