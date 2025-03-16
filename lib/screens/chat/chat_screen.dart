@@ -109,14 +109,13 @@ class ChatScreen extends StatelessWidget {
                   color: AppColors.greyBlack,
                   child: Center(
                     child: Text(
-                      "Chat messages will appear here",
-                      style: AppTextStyles.bodyText
-                          .copyWith(color: Colors.white60),
+                      "Say Hii.. ✌",
+                      style: AppTextStyles.heading2,
                     ),
                   ),
                 ),
               ),
-              const BuildMessageInput(),
+              const ChatInputField(),
               SizedBox(
                 height: 20.h,
               )
@@ -128,14 +127,13 @@ class ChatScreen extends StatelessWidget {
   }
 }
 
-class BuildMessageInput extends StatefulWidget {
-  const BuildMessageInput({super.key});
-
+class ChatInputField extends StatefulWidget {
+  const ChatInputField({super.key});
   @override
-  State<BuildMessageInput> createState() => _BuildMessageInputState();
+  ChatInputFieldState createState() => ChatInputFieldState();
 }
 
-class _BuildMessageInputState extends State<BuildMessageInput> {
+class ChatInputFieldState extends State<ChatInputField> {
   final TextEditingController messageController = TextEditingController();
   bool isEmpty = true;
 
@@ -151,61 +149,91 @@ class _BuildMessageInputState extends State<BuildMessageInput> {
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       color: AppColors.greyBlack,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
-            child: TextField(
-              onChanged: (value) {
-                if (value.isEmpty) {
-                  setState(() {
-                    isEmpty = true;
-                  });
-                } else {
-                  setState(() {
-                    isEmpty = false;
-                  });
-                }
-              },
-              style: AppTextStyles.bodyText,
-              decoration: InputDecoration(
-                fillColor: AppColors.darkGreen,
-                filled: true,
-                prefixIcon: Icon(
-                  Icons.emoji_emotions,
-                  size: 28.sp,
-                  color: AppColors.softWhite,
+            child: IntrinsicHeight(
+              // Ensures prefix and suffix stay aligned
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.darkGreen,
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
-                suffixIcon: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: Row(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.end, // Aligns icons at bottom
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.r),
+                      child: Icon(
+                        Icons.emoji_emotions,
+                        size: 28.sp,
+                        color: AppColors.softWhite,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Expanded(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: 160.h, // Limits expansion
+                        ),
+                        child: Scrollbar(
+                          child: SingleChildScrollView(
+                            child: TextField(
+                              minLines: 1,
+                              controller: messageController,
+                              maxLines: null, // Allows multiline
+                              onChanged: (value) {
+                                setState(() {
+                                  isEmpty = value.trim().isEmpty;
+                                });
+                              },
+                              style: AppTextStyles.bodyText,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                hintText: "Message...",
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 12.h),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.r, horizontal: 8.w),
+                      child: Icon(
                         Icons.attach_file,
                         size: 28.sp,
                         color: AppColors.softWhite,
                       ),
-                      SizedBox(
-                        width: 12.w,
-                      ),
-                      Icon(
-                        Icons.camera_alt,
-                        size: 28.sp,
-                        color: AppColors.softWhite,
-                      )
-                    ],
-                  ),
+                    ),
+                    isEmpty
+                        ? Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 8.r, horizontal: 8.w),
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 28.sp,
+                              color: AppColors.softWhite,
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ],
                 ),
-                hintText: "Type a message...",
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
               ),
             ),
           ),
           SizedBox(width: 8.w),
           Container(
-            decoration: BoxDecoration(
-              color: AppColors.darkGreen, // Background color
-              shape: BoxShape.circle, // Makes it circular
+            decoration: const BoxDecoration(
+              color: AppColors.darkGreen,
+              shape: BoxShape.circle,
             ),
             child: IconButton(
               highlightColor: AppColors.darkGreenAccent,
@@ -213,6 +241,7 @@ class _BuildMessageInputState extends State<BuildMessageInput> {
               icon: Icon(
                 isEmpty ? Icons.mic : Icons.send,
                 color: Colors.white,
+                size: 28.sp,
               ),
             ),
           ),
