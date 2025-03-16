@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/model/user_model.dart';
+import 'package:quick_chat/providers/messages_provider.dart';
 import 'package:quick_chat/screens/chat/chat_profile.dart';
 import 'package:quick_chat/widgets/chat_wdgets/full_screen_image.dart';
 
@@ -104,16 +106,46 @@ class ChatScreen extends StatelessWidget {
           ),
           body: Column(
             children: [
-              Expanded(
-                child: Container(
-                  color: AppColors.greyBlack,
-                  child: Center(
-                    child: Text(
-                      "Say Hii/Hellow.. ✌",
-                      style: AppTextStyles.heading2,
-                    ),
-                  ),
-                ),
+              // Expanded(
+              //   child: Container(
+              //     color: AppColors.greyBlack,
+              //     child: Center(
+              //       child: Text(
+              //         "Say Hii/Hellow.. ✌",
+              //         style: AppTextStyles.heading2,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final messageStream = ref.watch(messageProvider);
+
+                  return messageStream.when(
+                      data: (snapshot) {
+                        final messages =
+                            snapshot.docs.map((doc) => doc.data()).toList();
+                        return Expanded(
+                            child: ListView.builder(
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final singleMessage = messages[index];
+                            return ListTile(
+                              title: Text(
+                                  singleMessage['message'] ?? 'lmao loner'),
+                            );
+                          },
+                        ));
+                      },
+                      error: (error, stackTrace) {
+                        return const Center(
+                          child: Text('lmao tf you doing'),
+                        );
+                      },
+                      loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ));
+                },
               ),
               const ChatInputField(),
               SizedBox(
