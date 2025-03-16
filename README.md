@@ -20,15 +20,15 @@ Quick Chat is a **Flutter-based real-time messaging app** with secure authentica
 
 ## 📸 Screenshots
 <img src="https://github.com/user-attachments/assets/dd8dd053-d629-4295-9ef3-b5e0e13ef6ee" alt="chat App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/90d9a68d-cb08-4839-bff5-25848ea1ed72" alt="Weather App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/cf9f289c-e4b4-45bb-9ba3-d603151d70f5" alt="Weather App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/c1218cc2-b9e4-465e-8953-a3a128be4745" alt="Weather App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/82f77143-e673-465e-ab5b-1e922b84228f" alt="Weather App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/2c8e7b89-3a5a-4fd8-ac7c-f874197e77a5" alt="Weather App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/5463839c-87ac-464e-a833-272b190f40b3" alt="Weather App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/04387239-d6ab-47ff-8555-c33551b0f6ba" alt="Weather App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/2031d47e-7e6d-4fe5-b0b4-1d2f0b09a4b0" alt="Weather App - Home Screen" height="300" />
-<img src="https://github.com/user-attachments/assets/b8974806-9671-41a4-9b0e-d4d4aa157158" alt="Weather App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/90d9a68d-cb08-4839-bff5-25848ea1ed72" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/cf9f289c-e4b4-45bb-9ba3-d603151d70f5" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/c1218cc2-b9e4-465e-8953-a3a128be4745" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/82f77143-e673-465e-ab5b-1e922b84228f" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/2c8e7b89-3a5a-4fd8-ac7c-f874197e77a5" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/5463839c-87ac-464e-a833-272b190f40b3" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/04387239-d6ab-47ff-8555-c33551b0f6ba" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/2031d47e-7e6d-4fe5-b0b4-1d2f0b09a4b0" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/b8974806-9671-41a4-9b0e-d4d4aa157158" alt="chat App - Home Screen" height="300" />
 
 
 ## 🔧 Setup & Installation
