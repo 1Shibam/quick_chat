@@ -109,7 +109,7 @@ class ChatScreen extends StatelessWidget {
                   color: AppColors.greyBlack,
                   child: Center(
                     child: Text(
-                      "Say Hii.. ✌",
+                      "Say Hii/Hellow.. ✌",
                       style: AppTextStyles.heading2,
                     ),
                   ),

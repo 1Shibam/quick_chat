@@ -1,3 +1,6 @@
+import 'package:quick_chat/Exports/common_exports.dart';
+
+@immutable
 class ChatUserModel {
   final String userID;
   final String username;
@@ -11,7 +14,7 @@ class ChatUserModel {
   final String pushToken;
   final String createdAt;
   final String profileUrl;
-  ChatUserModel(
+  const ChatUserModel(
       {required this.userID,
       required this.username,
       required this.email,

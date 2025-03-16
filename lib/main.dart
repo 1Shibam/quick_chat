@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/router/app_router.dart';
+
 import 'package:quick_chat/theme/app_theme.dart';
 import 'firebase_options.dart';
 
@@ -20,6 +21,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const ProviderScope(child: QuickChatApp()));
