@@ -190,6 +190,7 @@ class _LoginPageState extends State<LoginPage> {
       final user = FirebaseAuth.instance.currentUser;
 
       if (user == null) {
+        context.pop();
         return;
       }
       if (user.emailVerified) {

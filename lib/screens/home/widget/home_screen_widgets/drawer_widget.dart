@@ -29,9 +29,40 @@ class DrawerWidgetHomeScreen extends StatelessWidget {
               ),
               leading: const Icon(Icons.person)),
           ListTile(
-            onTap: () {
-              FirebaseAuth.instance.signOut();
-              context.go(RouterNames.splash);
+            onTap: () async {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: AppColors.darkGreen,
+                      title: Text('Logout !? ', style: AppTextStyles.heading2),
+                      content: Text(
+                        'Are you sure you want to logout?',
+                        style: AppTextStyles.bodyText,
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context), // Cancel
+                          child: Text(
+                            'Cancel',
+                            style: AppTextStyles.buttonText,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            await FirebaseAuth.instance.signOut();
+                            if (context.mounted) {
+                              context.go(RouterNames.splash);
+                            }
+                          },
+                          child: Text(
+                            'Yes',
+                            style: AppTextStyles.buttonText,
+                          ),
+                        )
+                      ],
+                    );
+                  });
             },
             title: Text(
               'Log Out',
