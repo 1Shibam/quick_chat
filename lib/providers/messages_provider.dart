@@ -1,19 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quick_chat/Exports/common_exports.dart';
 
 
-final messageProvider = StreamProvider((ref) {
-  try {
-    final snapshots =
-        FirebaseFirestore.instance.collection('chatMessages').snapshots();
-    return snapshots;
-  } catch (error, stackTrace) {
-    debugPrint(error.toString());
-    debugPrintStack(stackTrace: stackTrace);
 
-    rethrow;
-  }
+final messageProvider = StreamProvider.autoDispose<QuerySnapshot<Map<String, dynamic>>>((ref) {
+  return FirebaseFirestore.instance.collection('chatMessages').snapshots();
 });
 
 
