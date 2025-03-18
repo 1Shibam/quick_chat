@@ -165,4 +165,13 @@ class FirestoreServices {
         ? '${user.uid}_$id'
         : '${id}_${user.uid}';
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
+      ChatUserModel chatUser) {
+    return firestore
+        .collection('chats/${getConvoID(chatUser.userID)}/messages')
+        .snapshots();
+  }
 }
+
+

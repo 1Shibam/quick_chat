@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quick_chat/model/user_model.dart';
+import 'package:quick_chat/providers/firestore_service_provider.dart';
 
 final messageProvider =
-    StreamProvider.autoDispose<QuerySnapshot<Map<String, dynamic>>>((ref) {
-  final FirebaseAuth user = FirebaseAuth.instance;
-  return FirebaseFirestore.instance
-      .collection('chatMessages')
-      .where('receiverID', isEqualTo: user.currentUser!.uid)
-      .snapshots();
+    StreamProvider.family<QuerySnapshot<Map<String, dynamic>>, ChatUserModel>(
+        (ref, chatUser) {
+  final firestoreService = ref.watch(firestoreServiceProvider);
+  return firestoreService.getAllMessages(chatUser);
 });
-
-

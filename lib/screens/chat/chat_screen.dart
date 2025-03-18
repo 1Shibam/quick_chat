@@ -123,7 +123,7 @@ class ChatScreen extends StatelessWidget {
               ),
               Consumer(
                 builder: (context, ref, child) {
-                  final messageStream = ref.watch(messageProvider);
+                  final messageStream = ref.watch(messageProvider(userInfo));
 
                   return messageStream.when(
                       data: (snapshot) {
