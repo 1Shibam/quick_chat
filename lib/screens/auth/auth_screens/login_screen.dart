@@ -1,22 +1,24 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
+import 'package:quick_chat/providers/firestore_service_provider.dart';
 
 import 'package:quick_chat/screens/auth/widgets/bottom_rich_texts_widget.dart';
 import 'package:quick_chat/screens/auth/widgets/reset_password_dialog.dart';
 import 'package:quick_chat/services/firebase_auth_service.dart';
 import 'package:quick_chat/widgets/common_widgets/cirular_loader.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   //! Text Editing controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
@@ -49,6 +51,9 @@ class _LoginPageState extends State<LoginPage> {
       ciruclarLoader(context);
 
       await attemptLogin();
+      await ref
+          .read(firestoreServiceStateNotifierProvider.notifier)
+          .createProfile(context);
     } else {
       buildSnackBar(context, 'Please Fill all the fields correctly',
           bgColor: AppColors.errorRed);
