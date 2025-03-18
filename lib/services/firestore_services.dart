@@ -158,4 +158,11 @@ class FirestoreServices {
       }
     }
   }
+
+  String getConvoID(String id) {
+    final user = _auth.currentUser!;
+    return user.uid.hashCode <= id.hashCode
+        ? '${user.uid}_$id'
+        : '${id}_${user.uid}';
+  }
 }
