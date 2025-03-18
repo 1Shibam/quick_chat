@@ -19,6 +19,8 @@ Quick Chat is a **Flutter-based real-time messaging app** with secure authentica
 - **Packages Used:** Dio (API requests), Cloudinary (image storage), Speech-to-Text & Text-to-Speech (future updates)
 
 ## 📸 Screenshots
+<img src="https://github.com/user-attachments/assets/ecfab15b-126a-4183-819e-e294946bf215" alt="chat App - Home Screen" height="300" />
+<img src="https://github.com/user-attachments/assets/7a949f70-38f3-4ed6-bb26-82cb4e348f02" alt="chat App - Home Screen" height="300" />
 <img src="https://github.com/user-attachments/assets/dd8dd053-d629-4295-9ef3-b5e0e13ef6ee" alt="chat App - Home Screen" height="300" />
 <img src="https://github.com/user-attachments/assets/90d9a68d-cb08-4839-bff5-25848ea1ed72" alt="chat App - Home Screen" height="300" />
 <img src="https://github.com/user-attachments/assets/cf9f289c-e4b4-45bb-9ba3-d603151d70f5" alt="chat App - Home Screen" height="300" />
