@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/model/message_model.dart';
 import 'package:quick_chat/model/user_model.dart';
+import 'package:quick_chat/providers/firestore_service_provider.dart';
 import 'package:quick_chat/providers/messages_provider.dart';
 import 'package:quick_chat/screens/chat/chat_profile.dart';
 import 'package:quick_chat/widgets/chat_wdgets/full_screen_image.dart';
@@ -127,22 +129,34 @@ class ChatScreen extends StatelessWidget {
 
                   return messageStream.when(
                       data: (snapshot) {
-                        final messages =
-                            snapshot.docs.map((doc) => doc.data()).toList();
+                        final messages = snapshot.docs
+                            .map((doc) => MessageModel.fromJson(doc.data()))
+                            .toList();
+                        if (messages.isEmpty) {
+                          return const Expanded(
+                            child: Center(
+                              child: Text('Say hi !✌✌'),
+                            ),
+                          );
+                        }
                         return Expanded(
                             child: ListView.builder(
                           itemCount: messages.length,
                           itemBuilder: (context, index) {
                             final singleMessage = messages[index];
-                            return userInfo.userID == singleMessage['senderID']
-                                ? SenderMessageCard(
-                                    message: singleMessage['message'],
+                            return userInfo.userID == singleMessage.senderID
+                                ? MessageCard(
+                                    message: singleMessage.message,
+                                    isCurrentUser: false,
                                     isImage: false,
                                     isVideo: false,
                                     isText: true)
-                                : const Center(
-                                    child: Text('Say hi !✌✌'),
-                                  );
+                                : MessageCard(
+                                    message: singleMessage.message,
+                                    isCurrentUser: true,
+                                    isImage: false,
+                                    isVideo: false,
+                                    isText: true);
                           },
                         ));
                       },
@@ -156,7 +170,9 @@ class ChatScreen extends StatelessWidget {
                           ));
                 },
               ),
-              const ChatInputField(),
+              ChatInputField(
+                userInfo: userInfo,
+              ),
               SizedBox(
                 height: 20.h,
               )
@@ -169,13 +185,15 @@ class ChatScreen extends StatelessWidget {
 }
 
 class ChatInputField extends StatefulWidget {
-  const ChatInputField({super.key});
+  const ChatInputField({super.key, required this.userInfo});
+  final ChatUserModel userInfo;
   @override
   ChatInputFieldState createState() => ChatInputFieldState();
 }
 
 class ChatInputFieldState extends State<ChatInputField> {
   final TextEditingController messageController = TextEditingController();
+
   bool isEmpty = true;
 
   @override
@@ -272,34 +290,58 @@ class ChatInputFieldState extends State<ChatInputField> {
           ),
           SizedBox(width: 8.w),
           Container(
-            decoration: const BoxDecoration(
-              color: AppColors.darkGreen,
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              highlightColor: AppColors.darkGreenAccent,
-              onPressed: () {},
-              icon: Icon(
-                isEmpty ? Icons.mic : Icons.send,
-                color: Colors.white,
-                size: 28.sp,
+              decoration: const BoxDecoration(
+                color: AppColors.darkGreen,
+                shape: BoxShape.circle,
               ),
-            ),
-          ),
+              child: isEmpty
+                  ? IconButton(
+                      highlightColor: AppColors.darkGreenAccent,
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.mic,
+                        color: Colors.white,
+                        size: 28.sp,
+                      ),
+                    )
+                  : Consumer(
+                      builder: (context, ref, child) {
+                        return IconButton(
+                          highlightColor: AppColors.darkGreenAccent,
+                          onPressed: () {
+                            ref
+                                .read(firestoreServiceStateNotifierProvider
+                                    .notifier)
+                                .sendMessageToUsers(
+                                    context: context,
+                                    message: messageController.text,
+                                    chatUser: widget.userInfo);
+                            messageController.clear();
+                          },
+                          icon: Icon(
+                            Icons.send,
+                            color: Colors.white,
+                            size: 28.sp,
+                          ),
+                        );
+                      },
+                    )),
         ],
       ),
     );
   }
 }
 
-class SenderMessageCard extends StatelessWidget {
-  const SenderMessageCard(
+class MessageCard extends StatelessWidget {
+  const MessageCard(
       {super.key,
       required this.message,
       required this.isImage,
       required this.isVideo,
-      required this.isText});
+      required this.isText,
+      required this.isCurrentUser});
   final String message;
+  final bool isCurrentUser;
   final bool isImage;
   final bool isVideo;
   final bool isText;
@@ -308,22 +350,30 @@ class SenderMessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-      child: Container(
-        padding: EdgeInsets.all(12.r),
-        decoration: BoxDecoration(
-            color: AppColors.darkGreenAccent,
-            borderRadius: BorderRadius.circular(20.r)
-                .copyWith(topLeft: const Radius.circular(0))),
-        child: isText
-            ? Text(
-                message,
-                style: AppTextStyles.buttonText,
-              )
-            : isImage
-                ? PhotoView(imageProvider: null)
-                : isVideo
-                    ? const SizedBox()
-                    : const SizedBox(),
+      child: Align(
+        alignment: isCurrentUser ? Alignment.topRight : Alignment.topLeft,
+        child: Container(
+          padding: EdgeInsets.all(12.r),
+          decoration: BoxDecoration(
+              color: isCurrentUser
+                  ? AppColors.darkGreenAccent
+                  : AppColors.darkGreen,
+              borderRadius: isCurrentUser
+                  ? BorderRadius.circular(20.r)
+                      .copyWith(topRight: const Radius.circular(0))
+                  : BorderRadius.circular(20.r)
+                      .copyWith(topLeft: const Radius.circular(0))),
+          child: isText
+              ? Text(
+                  message,
+                  style: AppTextStyles.buttonText,
+                )
+              : isImage
+                  ? PhotoView(imageProvider: null)
+                  : isVideo
+                      ? const SizedBox()
+                      : const SizedBox(),
+        ),
       ),
     );
   }
