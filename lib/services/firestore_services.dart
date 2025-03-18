@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
+import 'package:quick_chat/model/message_model.dart';
 import 'package:quick_chat/model/user_model.dart';
 import 'package:quick_chat/services/pick_image.dart';
 import 'package:quick_chat/services/upload_image_to_imgur.dart';
@@ -172,6 +173,23 @@ class FirestoreServices {
         .collection('chats/${getConvoID(chatUser.userID)}/messages')
         .snapshots();
   }
+
+  //Send messages -
+  Future<void> sendMessages(
+      String message, ChatUserModel chatUser, BuildContext context) async {
+    //message sending time used as id -
+    final user = _auth.currentUser!;
+    final time = DateTime.now().microsecondsSinceEpoch.toString();
+    //message to send -
+    final MessageModel message = MessageModel(
+        senderID: user.uid,
+        receiverID: chatUser.userID,
+        sentTime: time,
+        readTime: '',
+        message: '',
+        messageType: MessageType.text);
+    final reference =
+        firestore.collection('chats/${getConvoID(chatUser.userID)}/messages');
+    await reference.doc().set(message.toJson());
+  }
 }
-
-
