@@ -176,20 +176,20 @@ class FirestoreServices {
 
   //Send messages -
   Future<void> sendMessages(
-      String message, ChatUserModel chatUser, BuildContext context) async {
+      String typedMessage, ChatUserModel chatUser, BuildContext context) async {
     //message sending time used as id -
     final user = _auth.currentUser!;
     final time = DateTime.now().microsecondsSinceEpoch.toString();
     //message to send -
-    final MessageModel message = MessageModel(
+    final MessageModel sendData = MessageModel(
         senderID: user.uid,
         receiverID: chatUser.userID,
         sentTime: time,
         readTime: '',
-        message: '',
+        message: typedMessage,
         messageType: MessageType.text);
     final reference =
         firestore.collection('chats/${getConvoID(chatUser.userID)}/messages');
-    await reference.doc().set(message.toJson());
+    await reference.doc().set(sendData.toJson());
   }
 }
