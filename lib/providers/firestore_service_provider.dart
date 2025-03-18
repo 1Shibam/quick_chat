@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/Exports/widgets_export.dart';
+import 'package:quick_chat/model/user_model.dart';
 import 'package:quick_chat/services/firestore_services.dart';
 
 final firestoreServiceProvider =
@@ -113,6 +114,20 @@ class FirestoreServiceNotifier extends StateNotifier<FirestoreServices> {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<void> sendMessageToUsers(
+      {required BuildContext context,
+      required String message,
+      required ChatUserModel chatUser}) async {
+    try {
+      await state.sendMessages(message, chatUser, context);
+    } catch (e) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Something went wrong',
+            bgColor: AppColors.errorRedAccent);
+      }
     }
   }
 }
