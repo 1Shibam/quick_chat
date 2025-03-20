@@ -2,15 +2,15 @@ import 'package:photo_view/photo_view.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
 
 class MessageCard extends StatelessWidget {
-  const MessageCard({
-    super.key,
-    required this.message,
-    required this.isImage,
-    required this.isVideo,
-    required this.isText,
-    required this.messageTime,
-    required this.isCurrentUser,
-  });
+  const MessageCard(
+      {super.key,
+      required this.message,
+      required this.isImage,
+      required this.isVideo,
+      required this.isText,
+      required this.messageTime,
+      required this.isCurrentUser,
+     });
 
   final String message;
   final String messageTime;
@@ -18,6 +18,7 @@ class MessageCard extends StatelessWidget {
   final bool isImage;
   final bool isVideo;
   final bool isText;
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,22 +29,32 @@ class MessageCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max, // ✅ Fixes the extra spacing issue
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (isCurrentUser) // ✅ Only adds the widget if it's needed
               Padding(
                 padding: EdgeInsets.only(right: 4.w),
-                child: Text(
-                  getFormattedTime(context: context, time: messageTime)
-                      .toString(),
-                  style: AppTextStyles.buttonText,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      getFormattedTime(context: context, time: messageTime)
+                          .toString(),
+                      style: AppTextStyles.buttonText,
+                    ),
+                    Icon(
+                            Icons.check,
+                            size: 20.sp,
+                            color: AppColors.softGrey,
+                          )
+                  ],
                 ),
               ),
             Flexible(
               child: Padding(
                 padding: isCurrentUser
-                    ? EdgeInsets.symmetric(vertical: 4.h).copyWith(left: 16.w)
-                    : EdgeInsets.symmetric(vertical: 4.h).copyWith(right: 16.w),
+                    ? EdgeInsets.symmetric(vertical: 4.h).copyWith(left: 28.w)
+                    : EdgeInsets.symmetric(vertical: 4.h).copyWith(right: 28.w),
                 child: Container(
                   padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(

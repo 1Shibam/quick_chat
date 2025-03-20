@@ -48,6 +48,10 @@ class UsersList extends StatelessWidget {
             singleUser.username,
             style: AppTextStyles.heading3,
           ),
+          subtitle: Text(
+            'Lmao',
+            style: AppTextStyles.caption,
+          ),
         );
       },
     );
