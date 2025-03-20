@@ -130,6 +130,7 @@ class FirestoreServiceNotifier extends StateNotifier<FirestoreServices> {
       }
     }
   }
+  
 }
 
 final firestoreServiceStateNotifierProvider =
