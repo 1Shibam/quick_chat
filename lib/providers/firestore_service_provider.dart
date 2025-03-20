@@ -130,7 +130,18 @@ class FirestoreServiceNotifier extends StateNotifier<FirestoreServices> {
       }
     }
   }
-  
+
+  Future<void> markMessagesAsRead(
+      {required BuildContext context,
+      required ChatUserModel chatUserID}) async {
+    try {
+      await state.markAllMessagesAsRead(chatUserID.userID);
+    } catch (e) {
+      if (context.mounted) {
+        buildSnackBar(context, 'Something went wrong');
+      }
+    }
+  }
 }
 
 final firestoreServiceStateNotifierProvider =
