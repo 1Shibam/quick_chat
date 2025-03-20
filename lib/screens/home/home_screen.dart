@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, ref, child) {
                       final user = ref.watch(otherUserProvider);
                       final searchQuery = ref.watch(searchQueryProvider);
-                      
+
                       return user.when(data: (userData) {
                         if (userData.isEmpty) {
                           return const Center(

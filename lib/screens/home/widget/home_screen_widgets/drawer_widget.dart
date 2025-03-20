@@ -2,7 +2,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
-import 'package:quick_chat/providers/user_provider.dart';
 
 class DrawerWidgetHomeScreen extends StatelessWidget {
   const DrawerWidgetHomeScreen({
@@ -55,8 +54,7 @@ class DrawerWidgetHomeScreen extends StatelessWidget {
                             return TextButton(
                               onPressed: () async {
                                 await FirebaseAuth.instance.signOut();
-                                ref.invalidate(currentUserProvider);
-                                ref.read(otherUserProvider);
+                                
 
                                 if (context.mounted) {
                                   context.go(RouterNames.splash);

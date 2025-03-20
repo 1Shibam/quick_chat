@@ -6,7 +6,8 @@ import 'package:quick_chat/Exports/common_exports.dart';
 import 'package:quick_chat/model/user_model.dart';
 
 //? all user provider except current user
-final otherUserProvider = StreamProvider<List<ChatUserModel>>((ref) {
+final otherUserProvider =
+    StreamProvider.autoDispose<List<ChatUserModel>>((ref) {
   try {
     final FirebaseAuth user = FirebaseAuth.instance;
 
@@ -34,7 +35,7 @@ final otherUserProvider = StreamProvider<List<ChatUserModel>>((ref) {
 });
 
 //? current user provider
-final currentUserProvider = StreamProvider<ChatUserModel>((ref) {
+final currentUserProvider = StreamProvider.autoDispose<ChatUserModel>((ref) {
   try {
     final FirebaseAuth user = FirebaseAuth.instance;
     final String currentUseId = user.currentUser!.uid;

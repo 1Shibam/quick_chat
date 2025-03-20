@@ -7,7 +7,7 @@ import 'package:quick_chat/providers/firestore_service_provider.dart';
 import 'package:quick_chat/services/firestore_services.dart';
 
 final messageProvider =
-    StreamProvider.family<QuerySnapshot<Map<String, dynamic>>, ChatUserModel>(
+    StreamProvider.autoDispose.family<QuerySnapshot<Map<String, dynamic>>, ChatUserModel>(
         (ref, chatUser) {
   final firestoreService = ref.watch(firestoreServiceProvider);
   return firestoreService.getAllMessages(chatUser);
