@@ -32,6 +32,7 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, ref, child) {
                       final user = ref.watch(otherUserProvider);
                       final searchQuery = ref.watch(searchQueryProvider);
+                      
                       return user.when(data: (userData) {
                         if (userData.isEmpty) {
                           return const Center(
@@ -51,7 +52,10 @@ class HomeScreen extends StatelessWidget {
                             ),
                           );
                         }
-                        return UsersList(filteredSearch: filteredSearch);
+                        return UsersList(
+                          filteredSearch: filteredSearch,
+                          lastMessage: '',
+                        );
                       },
                           //errro state if stream got some error --
                           error: (error, stackTrace) {
