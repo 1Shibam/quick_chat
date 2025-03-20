@@ -179,6 +179,14 @@ class FirestoreServices {
         .collection('chats/${getConvoID(chatUser.userID)}/messages').limit(1)
         .snapshots();
   }
+  Future<void> markMessageAsRead(String chatUserID, String messageID) async {
+  final reference = FirebaseFirestore.instance
+      .collection('chats/${getConvoID(chatUserID)}/messages')
+      .doc(messageID);
+
+  await reference.update({'readTime': DateTime.now().millisecondsSinceEpoch});
+}
+
 
   //Send messages -
   Future<void> sendMessages(
