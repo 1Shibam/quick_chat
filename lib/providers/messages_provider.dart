@@ -28,8 +28,6 @@ final lastMessageProvider =
   });
 });
 
-
-
 final chatTileProvider = StreamProvider.autoDispose
     .family<({MessageModel? lastMessage, int unreadCount}), String>(
         (ref, chatUserID) {

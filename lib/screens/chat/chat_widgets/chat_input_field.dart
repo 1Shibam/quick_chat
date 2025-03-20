@@ -128,6 +128,9 @@ class ChatInputFieldState extends State<ChatInputField> {
                         return IconButton(
                           highlightColor: AppColors.darkGreenAccent,
                           onPressed: () {
+                            if (messageController.text.trim().isEmpty) {
+                              return;
+                            }
                             ref
                                 .read(firestoreServiceStateNotifierProvider
                                     .notifier)
