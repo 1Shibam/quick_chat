@@ -173,20 +173,16 @@ class FirestoreServices {
         .collection('chats/${getConvoID(chatUser.userID)}/messages')
         .snapshots();
   }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(
       ChatUserModel chatUser) {
     return firestore
-        .collection('chats/${getConvoID(chatUser.userID)}/messages').limit(1)
+        .collection('chats/${getConvoID(chatUser.userID)}/messages')
+        .limit(1)
         .snapshots();
   }
-  Future<void> markMessageAsRead(String chatUserID, String messageID) async {
-  final reference = FirebaseFirestore.instance
-      .collection('chats/${getConvoID(chatUserID)}/messages')
-      .doc(messageID);
 
-  await reference.update({'readTime': DateTime.now().millisecondsSinceEpoch});
-}
-
+  
 
   //Send messages -
   Future<void> sendMessages(
@@ -207,7 +203,19 @@ class FirestoreServices {
     await reference.doc().set(sendData.toJson());
   }
 
+  //Mark messages as read --
+  Future<void> markAllMessagesAsRead(String chatUserID) async {
+    final user = _auth.currentUser!;
+    final reference = FirebaseFirestore.instance
+        .collection('chats/${getConvoID(chatUserID)}/messages');
 
-
- 
+    final unreadMessages = await reference
+        .where('receiverID', isEqualTo: user.uid)
+        .where('readTime', isEqualTo: '')
+        .get();
+    for (var doc in unreadMessages.docs) {
+      await reference.doc(doc.id).update(
+          {'readTime': DateTime.now().millisecondsSinceEpoch.toString()});
+    }
+  }
 }
