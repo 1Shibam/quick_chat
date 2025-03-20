@@ -173,6 +173,12 @@ class FirestoreServices {
         .collection('chats/${getConvoID(chatUser.userID)}/messages')
         .snapshots();
   }
+  Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(
+      ChatUserModel chatUser) {
+    return firestore
+        .collection('chats/${getConvoID(chatUser.userID)}/messages').limit(1)
+        .snapshots();
+  }
 
   //Send messages -
   Future<void> sendMessages(
@@ -192,6 +198,8 @@ class FirestoreServices {
         firestore.collection('chats/${getConvoID(chatUser.userID)}/messages');
     await reference.doc().set(sendData.toJson());
   }
+
+
 
  
 }
