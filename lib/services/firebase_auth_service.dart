@@ -155,6 +155,7 @@ class FirebaseAuthServices {
       // If user exists, directly sign them in
       final UserCredential userCredential =
           await _auth.signInWithCredential(credential);
+      await FirebaseAuth.instance.currentUser?.reload(); // Force refresh
 
       if (userCredential.user != null) {
         await FirestoreServices().createUserProfile();

@@ -33,10 +33,33 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: LoadingAnimation(),
-      ),
-    );
+    return Scaffold(
+        body: StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: LoadingAnimation(),
+          );
+        }
+        final user = snapshot.data;
+        if (user != null && user.emailVerified) {
+          Future.microtask(() async {
+            if (context.mounted) {
+              context.go(RouterNames.home);
+            }
+          });
+        } else {
+          Future.microtask(() {
+            if (context.mounted) {
+              context.go(RouterNames.login);
+            }
+          });
+        }
+        return const Center(
+          child: LoadingAnimation(),
+        );
+      },
+    ));
   }
 }

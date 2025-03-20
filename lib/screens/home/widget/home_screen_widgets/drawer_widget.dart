@@ -1,6 +1,8 @@
 //Home Screen drawer widget
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_chat/Exports/common_exports.dart';
+import 'package:quick_chat/providers/user_provider.dart';
 
 class DrawerWidgetHomeScreen extends StatelessWidget {
   const DrawerWidgetHomeScreen({
@@ -48,17 +50,24 @@ class DrawerWidgetHomeScreen extends StatelessWidget {
                             style: AppTextStyles.buttonText,
                           ),
                         ),
-                        TextButton(
-                          onPressed: () async {
-                            await FirebaseAuth.instance.signOut();
-                            if (context.mounted) {
-                              context.go(RouterNames.splash);
-                            }
+                        Consumer(
+                          builder: (context, ref, child) {
+                            return TextButton(
+                              onPressed: () async {
+                                await FirebaseAuth.instance.signOut();
+                                ref.invalidate(currentUserProvider);
+                                ref.read(otherUserProvider);
+
+                                if (context.mounted) {
+                                  context.go(RouterNames.splash);
+                                }
+                              },
+                              child: Text(
+                                'Yes',
+                                style: AppTextStyles.buttonText,
+                              ),
+                            );
                           },
-                          child: Text(
-                            'Yes',
-                            style: AppTextStyles.buttonText,
-                          ),
                         )
                       ],
                     );
