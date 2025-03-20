@@ -120,10 +120,16 @@ class ChatScreen extends StatelessWidget {
                         final messages = snapshot.docs
                             .map((doc) => MessageModel.fromJson(doc.data()))
                             .toList();
+
+                        messages
+                            .sort((a, b) => a.sentTime.compareTo(b.sentTime));
                         if (messages.isEmpty) {
-                          return const Expanded(
+                          return Expanded(
                             child: Center(
-                              child: Text('Say hi !✌✌'),
+                              child: Text(
+                                'Say hi !✌✌',
+                                style: AppTextStyles.heading2,
+                              ),
                             ),
                           );
                         }
@@ -175,8 +181,3 @@ class ChatScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

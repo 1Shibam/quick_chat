@@ -179,12 +179,12 @@ class FirestoreServices {
       String typedMessage, ChatUserModel chatUser, BuildContext context) async {
     //message sending time used as id -
     final user = _auth.currentUser!;
-    final time = DateTime.now().toIso8601String().split('T')[1].toString();
+    final time = DateTime.now().millisecondsSinceEpoch;
     //message to send -
     final MessageModel sendData = MessageModel(
         senderID: user.uid,
         receiverID: chatUser.userID,
-        sentTime: time,
+        sentTime: time.toString(),
         readTime: '',
         message: typedMessage,
         messageType: MessageType.text);
