@@ -85,23 +85,6 @@ class ChatScreen extends StatelessWidget {
                     ),
                   ),
                   // Action Buttons (Call & More)
-                  Row(
-                    children: [
-                      Icon(
-                        Platform.isIOS ? CupertinoIcons.phone : Icons.phone,
-                        color: AppColors.softWhite,
-                        size: 28.sp,
-                      ),
-                      SizedBox(width: 12.w),
-                      Icon(
-                        Platform.isIOS
-                            ? CupertinoIcons.ellipsis_vertical
-                            : Icons.more_vert,
-                        color: AppColors.softWhite,
-                        size: 28.sp,
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
